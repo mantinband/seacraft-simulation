@@ -51,20 +51,20 @@ class Controller {
 public:
 
 
-    explicit Controller(const shared_ptr<View> &view);
+    explicit Controller();
 
-    void initiate();
+    void run();
 
     queries getQuery(string s);
 
-    void parseLocation(double &x, double &y);
+    void parseLocation(Point &p);
 
     crafts getSeacraftType(string s);
 
 
     struct invalidLocationException : exception {
         const char* what() const throw() override {
-            return "ERROR: Invalid location format. [expected: (double,double)]";
+            return "ERROR: Invalid location format. [expected: (double,double)]\n(did you forget a comma?)";
         }
     };
     struct invalidCraftFormat: exception {
@@ -73,9 +73,20 @@ public:
         }
     };
 
+    struct invalidScaleException : exception {
+        const char * what() const throw() override {
+            return "ERROR: Invalid Scale. [expected: double]";
+        }
+    };
+
+    struct invalidMapSize : exception{
+        const char * what() const throw() override {
+            return "ERROR: Invalid size. [expected: double]";
+        }
+    };
 private:
     shared_ptr<Seacraft> getSeacraft();
-    weak_ptr<View> view;
+    shared_ptr<View> view;
 };
 
 

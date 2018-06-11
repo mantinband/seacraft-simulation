@@ -10,7 +10,7 @@
 
 class Cruiser : Seacraft{
 public:
-    Cruiser(const string &name, double x, double y, int strength, int containers=0);
+    Cruiser(const string &name, Point p, int strength, int containers=0);
 
 };
 

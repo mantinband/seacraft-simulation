@@ -6,10 +6,9 @@
 #include "Model.h"
 
 Model& Model::getInstance() {
-    if (instance == nullptr){
-        instance = make_shared(new Model);
-    }
-    return *instance;
+    static Model instance;
+
+    return instance;
 
 }
 
@@ -27,4 +26,13 @@ void Model::addCraft(const shared_ptr<Seacraft> &toAdd) {
     for (auto &craft : seacrafts){
         cout << craft->toString() << endl;
     }
+}
+
+string Model::getObjectInitialsAt(const Point &p, double scale) const {
+    for (const auto &seacraft : seacrafts){
+        if (seacraft->isIn(p, scale/2)){
+            return seacraft->getInitials();
+        }
+    }
+    return "";
 }

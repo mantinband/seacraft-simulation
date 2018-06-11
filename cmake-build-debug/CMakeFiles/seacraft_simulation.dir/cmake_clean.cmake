@@ -8,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/seacraft_simulation.dir/Freighter.cpp.o"
   "CMakeFiles/seacraft_simulation.dir/PatrolBoat.cpp.o"
   "CMakeFiles/seacraft_simulation.dir/View.cpp.o"
+  "CMakeFiles/seacraft_simulation.dir/Geometry.cpp.o"
   "seacraft_simulation.pdb"
   "seacraft_simulation"
 )

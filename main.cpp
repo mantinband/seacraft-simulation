@@ -3,10 +3,9 @@
 #include "View.h"
 
 int main() {
-    View view;
-    Controller controller(&view);
+    Controller controller;
 
-    controller.initiate();
+    controller.run();
 
 
     return 0;

@@ -204,6 +204,33 @@ Freighter.cpp.s:
 	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/Freighter.cpp.s
 .PHONY : Freighter.cpp.s
 
+Geometry.o: Geometry.cpp.o
+
+.PHONY : Geometry.o
+
+# target to build an object file
+Geometry.cpp.o:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/Geometry.cpp.o
+.PHONY : Geometry.cpp.o
+
+Geometry.i: Geometry.cpp.i
+
+.PHONY : Geometry.i
+
+# target to preprocess a source file
+Geometry.cpp.i:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/Geometry.cpp.i
+.PHONY : Geometry.cpp.i
+
+Geometry.s: Geometry.cpp.s
+
+.PHONY : Geometry.s
+
+# target to generate assembly for a file
+Geometry.cpp.s:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/Geometry.cpp.s
+.PHONY : Geometry.cpp.s
+
 Model.o: Model.cpp.o
 
 .PHONY : Model.o
@@ -384,6 +411,9 @@ help:
 	@echo "... Freighter.o"
 	@echo "... Freighter.i"
 	@echo "... Freighter.s"
+	@echo "... Geometry.o"
+	@echo "... Geometry.i"
+	@echo "... Geometry.s"
 	@echo "... Model.o"
 	@echo "... Model.i"
 	@echo "... Model.s"

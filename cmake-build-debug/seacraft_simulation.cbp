@@ -102,6 +102,12 @@
 		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/Freighter.h">
 			<Option target="seacraft_simulation"/>
 		</Unit>
+		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/Geometry.cpp">
+			<Option target="seacraft_simulation"/>
+		</Unit>
+		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/Geometry.h">
+			<Option target="seacraft_simulation"/>
+		</Unit>
 		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/Model.cpp">
 			<Option target="seacraft_simulation"/>
 		</Unit>

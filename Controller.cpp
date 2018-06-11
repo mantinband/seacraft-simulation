@@ -4,7 +4,7 @@
 
 #include "Controller.h"
 
-void Controller::initiate() {
+void Controller::run() {
     string input;
 
     cout << "Time " << Model::getInstance().getTime() << ": ";
@@ -16,15 +16,40 @@ void Controller::initiate() {
         try {
             switch (getQuery(input)) {
                 case defaultMap:
+                    view->restoreDefault();
                     break;
                 case changeMapSize:
+                    int size;
+                    cin >> size;
+
+                    if (cin.fail()){
+                        throw invalidMapSize();
+                    }
+                    view->setDisplaySize(size);
+
                     break;
-                case zoomMap:
-                    break;
-                case panMap:
-                    break;
+                case zoomMap:{
+                    double scale;
+                    cin >> scale;
+
+                    if (cin.fail()){
+                        throw invalidScaleException();
+                    }
+
+                    view->setScale(scale);
+                } break;
+                case panMap: {
+                    Point p;
+                    cin >> p.x;
+                    cin >> p.y;
+
+                    if (cin.fail()) {
+                        throw invalidLocationException();
+                    }
+                    view->setOrigin(p);
+                }break;
                 case showMap:
-                    view.lock()->show();
+                    view->show();
                     break;
                 case showStatus:
                     break;
@@ -54,16 +79,15 @@ void Controller::initiate() {
                     break;
                 default:
                     cerr << "ERROR: Invalid query. try again:" << endl;
-                    break;
             }
-            cout << "Time " << Model::getInstance().getTime() << ": ";
-            cout << "Enter command: ";
-
-            cin >> input;
-
         } catch (exception &e){
+            cin.ignore(INT32_MAX,'\n');
             cerr << e.what() << endl;
         }
+        cout << "Time " << Model::getInstance().getTime() << ": ";
+        cout << "Enter command: ";
+
+        cin >> input;
     }
 
 }
@@ -95,17 +119,17 @@ queries Controller::getQuery(string s) {
     return invalidQuery;
 }
 
-void Controller::parseLocation(double &x, double &y) {
+void Controller::parseLocation(Point &p) {
     char c;
 
     cin >> c;           //'('
-    cin >> x;           //'double'
+    cin >> p.x;           //'double'
     if (cin.fail() || c != '('){
         throw invalidLocationException();
     }
 
     cin >> c;       //','
-    cin >> y;       //'double'
+    cin >> p.y;       //'double'
     if (cin.fail() || c != ','){
         throw invalidLocationException();
     }
@@ -126,41 +150,31 @@ crafts Controller::getSeacraftType(string s) {
 shared_ptr<Seacraft> Controller::getSeacraft() {
     string craftName;
     string craftType;
-    double x, y;
+    Point point;
     int strength;
     string extraInfo;
 
     cin >> craftName;
     cin >> craftType;
-    parseLocation(x, y);
+    parseLocation(point);
     cin >> strength;
     getline(cin,extraInfo);
 
 
     switch (getSeacraftType(craftType)) {
         case cruiser:
-            if (extraInfo.empty()) {
-                return make_shared<Cruiser>(craftName, x, y, strength);
-            } else {
-                return make_shared<Cruiser>(craftName, x, y, strength, stoi(extraInfo));
-            }
         case freighter:
-            if (extraInfo.empty()) {
-                return make_shared<Freighter>(craftName, x, y, strength);
-            } else {
-                return make_shared<Freighter>(craftName, x, y, strength, stoi(extraInfo));
-            }
         case patrol_boat:
             if (extraInfo.empty()) {
-                return make_shared<PatrolBoat>(craftName, x, y, strength);
+                return make_shared<Seacraft>(craftName, point, strength);
             } else {
-                return make_shared<PatrolBoat>(craftName, x, y, strength, stoi(extraInfo));
+                return make_shared<Seacraft>(craftName, point, strength, stoi(extraInfo));
             }
         default:
             throw invalidCraftFormat();
     }
 }
 
-Controller::Controller(const shared_ptr<View> &view) : view (view){
+Controller::Controller() : view(make_shared<View>()){
 }
 

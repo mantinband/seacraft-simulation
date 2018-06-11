@@ -17,10 +17,8 @@ public:
     static Model & getInstance();
     int getTime() const;
     void addCraft(const shared_ptr<Seacraft> &toAdd);
-
+    string getObjectInitialsAt(const Point &p, double scale) const;
 private:
-    static shared_ptr<Model> instance;
-
     vector<shared_ptr<Seacraft>> seacrafts;
     vector<shared_ptr<Port>> ports;
 

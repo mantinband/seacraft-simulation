@@ -10,7 +10,7 @@
 
 class Freighter : Seacraft{
 public:
-    Freighter(const string &name, double x, double y, int strength, int containers=0);
+    Freighter(const string &name, Point p, int strength, int containers=0);
 
 };
 

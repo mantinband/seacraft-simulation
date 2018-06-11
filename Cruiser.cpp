@@ -4,5 +4,5 @@
 
 #include "Cruiser.h"
 
-Cruiser::Cruiser(const string &name, double x, double y, int strength, int containers=0) : Seacraft(name, x, y, strength,
-                                                                                                  containers) {}
+Cruiser::Cruiser(const string &name, Point p, int strength, int containers) :
+        Seacraft(name, p, strength, containers) {}

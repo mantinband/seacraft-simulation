@@ -10,8 +10,7 @@
 
 class PatrolBoat : Seacraft{
 public:
-    PatrolBoat(const string &name, double x, double y, int strength, int containers=0);
-
+    PatrolBoat(const string &name, Point p, int strength, int containers=0);
 };
 
 
