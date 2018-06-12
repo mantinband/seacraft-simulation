@@ -22,7 +22,6 @@ int Model::getTime() const {
 void Model::addCraft(const shared_ptr<Seacraft> &toAdd) {
     seacrafts.push_back(toAdd);
 
-
     for (auto &craft : seacrafts){
         cout << craft->toString() << endl;
     }

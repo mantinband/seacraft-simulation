@@ -52,12 +52,12 @@ void Controller::run() {
                     view->show();
                     break;
                 case showStatus:
+                    cout << Model::getInstance().status() << endl;
                     break;
                 case incrementTime:
                     break;
                 case createSeacraft: {
-                    shared_ptr<Seacraft> seacraftToAdd = getSeacraft();
-                    Model::getInstance().addCraft(seacraftToAdd);
+                    addSeacraft();
                 } break;
                 case course:
                     break;
@@ -147,7 +147,7 @@ crafts Controller::getSeacraftType(string s) {
     return invalidCraft;
 }
 
-shared_ptr<Seacraft> Controller::getSeacraft() {
+void Controller::addSeacraft() {
     string craftName;
     string craftType;
     Point point;
@@ -160,15 +160,18 @@ shared_ptr<Seacraft> Controller::getSeacraft() {
     cin >> strength;
     getline(cin,extraInfo);
 
-
     switch (getSeacraftType(craftType)) {
         case cruiser:
+            Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength))); break;
         case freighter:
+            if (extraInfo.empty()) {
+                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength))); break;
+            } else {
+                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength, stoi(extraInfo)))); break;
+            }
         case patrol_boat:
             if (extraInfo.empty()) {
-                return make_shared<Seacraft>(craftName, point, strength);
-            } else {
-                return make_shared<Seacraft>(craftName, point, strength, stoi(extraInfo));
+                Model::getInstance().addCraft(make_shared<Seacraft>(craftName, point, strength)); break;
             }
         default:
             throw invalidCraftFormat();

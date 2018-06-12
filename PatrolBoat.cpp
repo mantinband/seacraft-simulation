@@ -4,5 +4,5 @@
 
 #include "PatrolBoat.h"
 
-PatrolBoat::PatrolBoat(const string &name, Point p, int strength, int containers)
-        : Seacraft(name, p ,strength, containers) {}
+PatrolBoat::PatrolBoat(const string &name, Point p, int strength)
+        : Seacraft(name, p ,strength) {}

@@ -85,7 +85,7 @@ public:
         }
     };
 private:
-    shared_ptr<Seacraft> getSeacraft();
+    void addSeacraft();
     shared_ptr<View> view;
 };
 

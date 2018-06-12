@@ -11,7 +11,7 @@ void View::show() const {
 
     for (int i=displaySize-1; i>=0; i--){
         if (i%3 == 0){
-            cout << setw(5) << origin.y+i*scale << " ";
+            cout << setw(5) << fixed << setprecision(floor(origin.y+i*scale) == origin.y+i*scale ? 0 : 1) << origin.y+i*scale << " ";
         } else {
             cout << setw(6) << "";
         }
@@ -31,9 +31,9 @@ void View::show() const {
 
     for (int i=0; i<ceil(displaySize/3.0); i++){
         if (i == 0){
-            cout << setw(7) << origin.x+scale*(i*3);
+            cout << setw(7) << fixed << setprecision(floor(origin.y+i*scale) == origin.y+i*scale ? 0 : 1) << origin.x+scale*(i*3);
         } else {
-            cout << setw(6) << origin.x + scale * (i*3);
+            cout << setw(6) << fixed << setprecision(floor(origin.y+i*scale) == origin.y+i*scale ? 0 : 1) << origin.x + scale * (i*3);
         }
     }
     cout << endl;

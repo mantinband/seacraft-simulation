@@ -6,15 +6,12 @@
 
 #include <utility>
 
-Seacraft::Seacraft(string name, Point p, int strength, int containers)
+Seacraft::Seacraft(string name, Point p, int strength)
 : name(std::move(name)), point(p),strength(strength){
-    if (containers != 0){
-        this->containers = containers;
-    }
 }
 
 string Seacraft::toString() const {
-    return name + " (" + to_string(point.x) + "," + to_string(point.y) + ")" + " strength: " + to_string(strength) + " number of containers: " + to_string(containers);
+    return name + " (" + to_string(point.x) + "," + to_string(point.y) + ")" + " strength: " + to_string(strength);
 }
 
 bool Seacraft::isIn(const Point &p, double scale) const {

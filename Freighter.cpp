@@ -5,4 +5,6 @@
 #include "Freighter.h"
 
 Freighter::Freighter(const string &name, Point p, int strength, int containers)
-        : Seacraft(name, p, strength, containers) {}
+        : Seacraft(name, p, strength) {
+    this->containers = containers;
+}

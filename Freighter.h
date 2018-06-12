@@ -8,10 +8,11 @@
 
 #include "Seacraft.h"
 
-class Freighter : Seacraft{
+class Freighter : public Seacraft{
 public:
     Freighter(const string &name, Point p, int strength, int containers=0);
-
+private:
+    int containers;
 };
 
 

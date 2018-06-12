@@ -10,9 +10,8 @@
 using namespace std;
 
 class Seacraft {
-
 public:
-    Seacraft(string name, Point p, int strength, int containers=0);
+    Seacraft(string name, Point p, int strength);
     bool isIn(const Point &p, double scale) const;
     string getInitials() const;
 
@@ -21,7 +20,6 @@ private:
     string name;
     Point point;
     int strength;
-    int containers;
 };
 
 

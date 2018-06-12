@@ -8,9 +8,9 @@
 
 #include "Seacraft.h"
 
-class PatrolBoat : Seacraft{
+class PatrolBoat : public Seacraft{
 public:
-    PatrolBoat(const string &name, Point p, int strength, int containers=0);
+    PatrolBoat(const string &name, Point p, int strength);
 };
 
 
