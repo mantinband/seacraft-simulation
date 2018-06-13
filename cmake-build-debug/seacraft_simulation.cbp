@@ -126,6 +126,12 @@
 		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/Port.h">
 			<Option target="seacraft_simulation"/>
 		</Unit>
+		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/SeaObject.cpp">
+			<Option target="seacraft_simulation"/>
+		</Unit>
+		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/SeaObject.h">
+			<Option target="seacraft_simulation"/>
+		</Unit>
 		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/Seacraft.cpp">
 			<Option target="seacraft_simulation"/>
 		</Unit>

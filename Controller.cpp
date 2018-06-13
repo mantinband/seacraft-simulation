@@ -52,7 +52,7 @@ void Controller::run() {
                     view->show();
                     break;
                 case showStatus:
-                    cout << Model::getInstance().status() << endl;
+                    cout << Model::getInstance().getStatus();
                     break;
                 case incrementTime:
                     break;
@@ -162,17 +162,20 @@ void Controller::addSeacraft() {
 
     switch (getSeacraftType(craftType)) {
         case cruiser:
-            Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength))); break;
+            Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength)));
+            break;
         case freighter:
             if (extraInfo.empty()) {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength))); break;
+                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength)));
             } else {
                 Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength, stoi(extraInfo)))); break;
             }
+            break;
         case patrol_boat:
             if (extraInfo.empty()) {
-                Model::getInstance().addCraft(make_shared<Seacraft>(craftName, point, strength)); break;
+                Model::getInstance().addCraft(shared_ptr<Seacraft>(new PatrolBoat(craftName, point, strength))); break;
             }
+            break;
         default:
             throw invalidCraftFormat();
     }

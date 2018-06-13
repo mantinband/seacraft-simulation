@@ -11,7 +11,7 @@
 class Cruiser : public Seacraft{
 public:
     Cruiser(const string &name, Point p, int strength);
-
+    string getStatus() const override;
 };
 
 

@@ -35,3 +35,17 @@ string Model::getObjectInitialsAt(const Point &p, double scale) const {
     }
     return "";
 }
+
+string Model::getStatus() const {
+    string status;
+
+    for (const auto &port : ports){
+        status += port->getStatus() + "\n";
+    }
+
+    for (const auto &craft : seacrafts){
+        status += craft->getStatus() + "\n";
+    }
+
+    return status;
+}

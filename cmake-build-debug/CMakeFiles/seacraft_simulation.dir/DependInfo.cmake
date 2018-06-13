@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/amichai/CLionProjects/seacraft-simulation/Model.cpp" "/home/amichai/CLionProjects/seacraft-simulation/cmake-build-debug/CMakeFiles/seacraft_simulation.dir/Model.cpp.o"
   "/home/amichai/CLionProjects/seacraft-simulation/PatrolBoat.cpp" "/home/amichai/CLionProjects/seacraft-simulation/cmake-build-debug/CMakeFiles/seacraft_simulation.dir/PatrolBoat.cpp.o"
   "/home/amichai/CLionProjects/seacraft-simulation/Port.cpp" "/home/amichai/CLionProjects/seacraft-simulation/cmake-build-debug/CMakeFiles/seacraft_simulation.dir/Port.cpp.o"
+  "/home/amichai/CLionProjects/seacraft-simulation/SeaObject.cpp" "/home/amichai/CLionProjects/seacraft-simulation/cmake-build-debug/CMakeFiles/seacraft_simulation.dir/SeaObject.cpp.o"
   "/home/amichai/CLionProjects/seacraft-simulation/Seacraft.cpp" "/home/amichai/CLionProjects/seacraft-simulation/cmake-build-debug/CMakeFiles/seacraft_simulation.dir/Seacraft.cpp.o"
   "/home/amichai/CLionProjects/seacraft-simulation/View.cpp" "/home/amichai/CLionProjects/seacraft-simulation/cmake-build-debug/CMakeFiles/seacraft_simulation.dir/View.cpp.o"
   "/home/amichai/CLionProjects/seacraft-simulation/main.cpp" "/home/amichai/CLionProjects/seacraft-simulation/cmake-build-debug/CMakeFiles/seacraft_simulation.dir/main.cpp.o"

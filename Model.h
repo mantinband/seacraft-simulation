@@ -18,6 +18,7 @@ public:
     int getTime() const;
     void addCraft(const shared_ptr<Seacraft> &toAdd);
     string getObjectInitialsAt(const Point &p, double scale) const;
+    string getStatus() const;
 private:
     vector<shared_ptr<Seacraft>> seacrafts;
     vector<shared_ptr<Port>> ports;

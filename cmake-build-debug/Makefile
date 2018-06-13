@@ -312,6 +312,33 @@ Port.cpp.s:
 	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/Port.cpp.s
 .PHONY : Port.cpp.s
 
+SeaObject.o: SeaObject.cpp.o
+
+.PHONY : SeaObject.o
+
+# target to build an object file
+SeaObject.cpp.o:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/SeaObject.cpp.o
+.PHONY : SeaObject.cpp.o
+
+SeaObject.i: SeaObject.cpp.i
+
+.PHONY : SeaObject.i
+
+# target to preprocess a source file
+SeaObject.cpp.i:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/SeaObject.cpp.i
+.PHONY : SeaObject.cpp.i
+
+SeaObject.s: SeaObject.cpp.s
+
+.PHONY : SeaObject.s
+
+# target to generate assembly for a file
+SeaObject.cpp.s:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/SeaObject.cpp.s
+.PHONY : SeaObject.cpp.s
+
 Seacraft.o: Seacraft.cpp.o
 
 .PHONY : Seacraft.o
@@ -423,6 +450,9 @@ help:
 	@echo "... Port.o"
 	@echo "... Port.i"
 	@echo "... Port.s"
+	@echo "... SeaObject.o"
+	@echo "... SeaObject.i"
+	@echo "... SeaObject.s"
 	@echo "... Seacraft.o"
 	@echo "... Seacraft.i"
 	@echo "... Seacraft.s"

@@ -10,7 +10,11 @@
 
 class Freighter : public Seacraft{
 public:
+    static const int FUEL_TANK_SIZE = 500;
     Freighter(const string &name, Point p, int strength, int containers=0);
+
+    string getStatus() const override;
+
 private:
     int containers;
 };

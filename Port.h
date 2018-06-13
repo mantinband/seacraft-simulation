@@ -6,8 +6,12 @@
 #define SEACRAFT_SIMULATION_PORT_H
 
 
-class Port {
+#include "SeaObject.h"
 
+class Port : SeaObject {
+public:
+    Port(const string &name, const Point &point);
+    string getStatus() const override;
 };
 
 

@@ -6,19 +6,20 @@
 #define SEACRAFT_SIMULATION_SEACRAFT_H
 #include <string>
 #include "Geometry.h"
+#include "SeaObject.h"
 
 using namespace std;
 
-class Seacraft {
+class Seacraft : public SeaObject {
 public:
     Seacraft(string name, Point p, int strength);
     bool isIn(const Point &p, double scale) const;
     string getInitials() const;
 
     string toString() const ; //just for debug TODO: delete before giving in
+
+    int getStrength() const;
 private:
-    string name;
-    Point point;
     int strength;
 };
 
