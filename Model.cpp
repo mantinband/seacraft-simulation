@@ -84,3 +84,23 @@ void Model::addPort(string portName, Point portLocation, double initialFuel, dou
         throw e;
     }
 }
+
+void Model::setCourse(string seacraftName, double degree, double speed) {
+    for (const auto &seacraft : seacrafts){
+        if (seacraft->getName() == seacraftName){
+            seacraft->setCourse(degree,speed);
+            return;
+        }
+    }
+    throw noSuchSeacraftException();
+}
+
+void Model::setPosition(string seacraftName, Point point, double speed) {
+    for (const auto &seacraft : seacrafts){
+        if (seacraft->getName() == seacraftName){
+            seacraft->setPosition(point, speed);
+            return;
+        }
+    }
+    throw noSuchSeacraftException();
+}

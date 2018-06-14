@@ -68,10 +68,23 @@ void Controller::run(ifstream &inputFile) {
                 case createSeacraft:
                     addSeacraft();
                     break;
-                case course:
-                    break;
-                case position:
-                    break;
+                case course:{
+                    string seacraftName;
+                    double degree;
+                    double speed;
+
+                    cin >> seacraftName >> degree >> speed;
+                    Model::getInstance().setCourse(seacraftName, degree, speed);
+                } break;
+                case position:{
+                    string seacraftName;
+                    Point p;
+                    double speed;
+
+                    cin >> seacraftName >> p.x >> p.y >> speed;
+                    Model::getInstance().setPosition(seacraftName, p, speed);
+
+                } break;
                 case destination:
                     break;
                 case load_at:

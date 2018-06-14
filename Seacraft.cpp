@@ -20,4 +20,18 @@ int Seacraft::getStrength() const {
     return strength;
 }
 
+void Seacraft::setCourse(double degree, double speed) {
+    if (speed < 0){
+        throw invalidSpeedException();
+    }
+    courseDegree = degree;
+    this->speed = speed;
+}
+
+void Seacraft::setPosition(Point point, double speed) {
+    this->coursePoint = point;
+    this->speed = speed;
+    courseDegree =
+}
+
 

@@ -29,9 +29,19 @@ public:
     string getStatus() const;
     void addPort(string portName, Point portLocation, double initialFuel, double hourlyFuelProduction);
     void addCraft(const string &craftName, const string &crafType, Point point, int strength, const string &extraInfo);
+
+    void setCourse(string seacraftName, double degree, double speed);
+    void setPosition(string seacraftName, Point point, double speed);
+
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
             return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of containers)";
+        }
+    };
+
+    struct noSuchSeacraftException : exception {
+        const char *what() const throw() override{
+            return "ERROR: No such seacraft";
         }
     };
 
