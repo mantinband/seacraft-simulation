@@ -6,8 +6,10 @@
 #define SEACRAFT_SIMULATION_SEAOBJECT_H
 
 #include <string>
+#include <sstream>
 #include "Geometry.h"
 using namespace std;
+
 
 class SeaObject {
 public:

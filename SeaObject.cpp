@@ -15,7 +15,9 @@ string SeaObject::getName() const {
 }
 
 string SeaObject::getPointString() const {
-    return "(" + to_string(point.x) +"," + to_string(point.y) + ")";
+    stringstream ss;
+    ss << "(" << fixed << setprecision(2) << point.x << ", " << fixed << setprecision(2) << point.y << ")";
+    return ss.str();
 }
 
 double SeaObject::getFuel() const {

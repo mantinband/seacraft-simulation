@@ -10,5 +10,10 @@ Freighter::Freighter(const string &name, Point p, int strength, int containers)
 }
 
 string Freighter::getStatus() const {
-    return "Freighter " + getName() + " at position " + getPointString() + ", resistance: " + to_string(getStrength()) + " containers: " + to_string(containers); //TODO: ADD DESTINATION, SPEED, ;
+    stringstream ss;
+    ss << "Freighter " << getName() << " at position " << getPointString()
+            << ", fuel: " << fixed << setprecision(2) << getFuel()
+            << ", resistance: " << getStrength()
+            << " containers: " << to_string(containers);
+    return ss.str(); //TODO: ADD DESTINATION & SPEED;
 }

@@ -39,12 +39,7 @@ enum queries {
     invalidQuery
 };
 
-enum crafts {
-    cruiser,
-    freighter,
-    patrol_boat,
-    invalidCraft
-};
+
 
 
 class Controller {
@@ -67,11 +62,7 @@ public:
             return "ERROR: Invalid location format. [expected: (double,double)]\n(did you forget a comma?)";
         }
     };
-    struct invalidCraftFormat: exception {
-        const char * what() const throw() override {
-            return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of containers)";
-        }
-    };
+
 
     struct invalidScaleException : exception {
         const char * what() const throw() override {

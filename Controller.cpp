@@ -56,9 +56,9 @@ void Controller::run() {
                     break;
                 case incrementTime:
                     break;
-                case createSeacraft: {
+                case createSeacraft:
                     addSeacraft();
-                } break;
+                    break;
                 case course:
                     break;
                 case position:
@@ -140,13 +140,6 @@ void Controller::parseLocation(Point &p) {
     }
 }
 
-crafts Controller::getSeacraftType(string s) {
-    if (s == "Cruiser") return cruiser;
-    if (s == "Freighter") return freighter;
-    if (s == "Patrol_boat") return patrol_boat;
-    return invalidCraft;
-}
-
 void Controller::addSeacraft() {
     string craftName;
     string craftType;
@@ -160,25 +153,7 @@ void Controller::addSeacraft() {
     cin >> strength;
     getline(cin,extraInfo);
 
-    switch (getSeacraftType(craftType)) {
-        case cruiser:
-            Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength)));
-            break;
-        case freighter:
-            if (extraInfo.empty()) {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength)));
-            } else {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength, stoi(extraInfo)))); break;
-            }
-            break;
-        case patrol_boat:
-            if (extraInfo.empty()) {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new PatrolBoat(craftName, point, strength))); break;
-            }
-            break;
-        default:
-            throw invalidCraftFormat();
-    }
+    Model::getInstance().addCraft(craftName,craftType,point,strength,extraInfo);
 }
 
 Controller::Controller() : view(make_shared<View>()){

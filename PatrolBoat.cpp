@@ -10,6 +10,9 @@ PatrolBoat::PatrolBoat(const string &name, Point p, int strength)
 }
 
 string PatrolBoat::getStatus() const {
-    return "Patrol_boat " + getName() + " at " + getPointString() + ", fuel: "
-           + to_string(getFuel()) + " resistance: " + to_string(getStrength()); //TODO: add moving to destination and speed
+    stringstream ss;
+    ss << "Patrol_boat " << getName() << " at " << getPointString()
+       << ", fuel: " << fixed << setprecision(2)
+       << getFuel() << " resistance: " << getStrength();
+    return ss.str(); //TODO: add moving to destination and speed
 }
