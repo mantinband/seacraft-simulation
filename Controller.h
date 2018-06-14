@@ -9,6 +9,7 @@
 #include "PatrolBoat.h"
 #include "Model.h"
 #include "View.h"
+#include <fstream>
 #include <iostream>
 using namespace std;
 
@@ -48,14 +49,11 @@ public:
 
     explicit Controller();
 
-    void run();
+    void run(ifstream &inputFile);
 
     queries getQuery(string s);
 
-    void parseLocation(Point &p);
-
-    crafts getSeacraftType(string s);
-
+    void parseLocation(Point &p, istream &is);
 
     struct invalidLocationException : exception {
         const char* what() const throw() override {
@@ -75,9 +73,20 @@ public:
             return "ERROR: Invalid size. [expected: double]";
         }
     };
+
+    struct invalidPortFileException : exception {
+        const char *what() const throw() override {
+            return "ERROR: Invalid port file."
+                    "\nexpected: file with lines that follow:"
+                    "\n[ portName (locationX,locationY) hourlyFuelProduction hourlyFuelProduction ]";
+        }
+    };
 private:
     void addSeacraft();
+
     shared_ptr<View> view;
+
+    void createPorts(ifstream &basicIfstream);
 };
 
 

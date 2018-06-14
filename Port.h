@@ -8,10 +8,14 @@
 
 #include "SeaObject.h"
 
-class Port : SeaObject {
+class Port : public SeaObject {
 public:
-    Port(const string &name, const Point &point);
+    Port(string name, Point point, double initialFuel, double hourlyFuelProduction);
     string getStatus() const override;
+
+
+private:
+    double hourlyFuelProduction;
 };
 
 

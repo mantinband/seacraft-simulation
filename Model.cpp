@@ -33,6 +33,11 @@ string Model::getObjectInitialsAt(const Point &p, double scale) const {
             return seacraft->getInitials();
         }
     }
+    for (const auto &port : ports){
+        if (port->isIn(p, scale/2)){
+            return port->getInitials();
+        }
+    }
     return "";
 }
 
@@ -63,9 +68,7 @@ void Model::addCraft(const string &craftName, const string &craftType,Point poin
             }
             break;
         case patrol_boat:
-            if (extraInfo.empty()) {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new PatrolBoat(craftName, point, strength))); break;
-            }
+            Model::getInstance().addCraft(shared_ptr<Seacraft>(new PatrolBoat(craftName, point, strength)));
             break;
         default:
             throw invalidCraftFormat();
@@ -76,4 +79,12 @@ crafts Model::getSeacraftType(string s) {
     if (s == "Freighter") return freighter;
     if (s == "Patrol_boat") return patrol_boat;
     return invalidCraft;
+}
+
+void Model::addPort(string portName, Point portLocation, double initialFuel, double hourlyFuelProduction) {
+    try {
+        ports.push_back(make_shared<Port>(portName, portLocation, initialFuel, hourlyFuelProduction));
+    } catch (exception &e){
+        throw e;
+    }
 }

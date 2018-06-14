@@ -4,8 +4,17 @@
 
 #include "Controller.h"
 
-void Controller::run() {
+void Controller::run(ifstream &inputFile) {
     string input;
+
+    try {
+        createPorts(inputFile);
+    } catch (exception &e){
+        throw e;
+    }
+
+
+
 
     cout << "Time " << Model::getInstance().getTime() << ": ";
     cout << "Enter command: ";
@@ -119,26 +128,29 @@ queries Controller::getQuery(string s) {
     return invalidQuery;
 }
 
-void Controller::parseLocation(Point &p) {
+void Controller::parseLocation(Point &p, istream &is) {
     char c;
+    cout << "hmm" << endl;
+    is >> c;           //'('
+    is >> p.x;           //'double'
+    if (is.fail() || c != '('){
+        throw invalidLocationException();
+    }
+    cout << "hmm" << endl;
 
-    cin >> c;           //'('
-    cin >> p.x;           //'double'
-    if (cin.fail() || c != '('){
+    is >> c;       //','
+    is >> p.y;       //'double'
+    if (is.fail() || c != ','){
         throw invalidLocationException();
     }
 
-    cin >> c;       //','
-    cin >> p.y;       //'double'
-    if (cin.fail() || c != ','){
-        throw invalidLocationException();
-    }
-
-    cin >> c;   //')'
+    is >> c;   //')'
     if (c != ')'){
         throw invalidLocationException();
     }
 }
+
+
 
 void Controller::addSeacraft() {
     string craftName;
@@ -149,7 +161,7 @@ void Controller::addSeacraft() {
 
     cin >> craftName;
     cin >> craftType;
-    parseLocation(point);
+    parseLocation(point,cin);
     cin >> strength;
     getline(cin,extraInfo);
 
@@ -157,5 +169,32 @@ void Controller::addSeacraft() {
 }
 
 Controller::Controller() : view(make_shared<View>()){
+}
+
+void Controller::createPorts(ifstream &inputFile) {
+
+    if (!inputFile.is_open()){
+        throw invalidPortFileException();
+    }
+
+    string portName;
+    string portLocationString;
+    double initialPortFuel;
+    double hourlyFuelProduction;
+    char c;
+    Point portLocation;
+
+    while (inputFile >> portName &&
+           inputFile >> c && inputFile >> portLocation.x  &&
+            inputFile >> c && inputFile >> portLocation.y && inputFile >> c &&
+           inputFile >> initialPortFuel && inputFile >> hourlyFuelProduction) {
+        try {
+            Model::getInstance()
+                    .addPort(portName, portLocation, initialPortFuel, hourlyFuelProduction);
+        } catch (exception &e) {
+            throw e;
+        }
+    }
+
 }
 

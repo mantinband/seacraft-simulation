@@ -20,6 +20,15 @@ public:
     const Point &getPoint() const;
     double getFuel() const;
     void setFuel(double fuel);
+    bool isIn(const Point &p, double scale) const;
+    string getInitials() const;
+
+    struct invalidFuelException : exception {
+        const char *what() const throw() override{
+            return "Fuel amount must be positive";
+        }
+    };
+
 private:
     string name;
     Point point;
