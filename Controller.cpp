@@ -130,13 +130,11 @@ queries Controller::getQuery(string s) {
 
 void Controller::parseLocation(Point &p, istream &is) {
     char c;
-    cout << "hmm" << endl;
     is >> c;           //'('
     is >> p.x;           //'double'
     if (is.fail() || c != '('){
         throw invalidLocationException();
     }
-    cout << "hmm" << endl;
 
     is >> c;       //','
     is >> p.y;       //'double'

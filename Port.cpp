@@ -14,5 +14,10 @@ Port::Port(string name, Point point, double initialFuel, double hourlyFuelProduc
 }
 
 string Port::getStatus() const {
-    return "Port " + getName() + " at position " + getPointString() + ", Fuel available: " + to_string(getFuel()) + " kl";
+    stringstream ss;
+    ss << "Port " << getName() << " at position " << getPointString()
+            << ", fuel available: " << fixed << setprecision(2) << getFuel()
+            << " kl" << ", hourly fuel production: "
+            << fixed<< setprecision(2) << hourlyFuelProduction << " kl";
+    return ss.str();
 }

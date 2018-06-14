@@ -36,11 +36,10 @@ public:
     };
 
 private:
+    int time;
     vector<shared_ptr<Seacraft>> seacrafts;
     vector<shared_ptr<Port>> ports;
-    int time;
     crafts getSeacraftType(string s);
-
 };
 
 

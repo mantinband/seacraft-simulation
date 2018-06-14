@@ -12,8 +12,6 @@ class Port : public SeaObject {
 public:
     Port(string name, Point point, double initialFuel, double hourlyFuelProduction);
     string getStatus() const override;
-
-
 private:
     double hourlyFuelProduction;
 };
