@@ -54,8 +54,12 @@ string Model::getStatus() const {
 void Model::addCraft(const string &craftName, const string &craftType,Point point, int strength, const string &extraInfo) {
     switch (getSeacraftType(craftType)) {
         case cruiser:
-            Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength)));
-            break;
+            if (extraInfo.empty()) {
+                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength)));
+            } else {
+                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength, stof(extraInfo))));
+            }
+                break;
         case freighter:
             if (extraInfo.empty()) {
                 Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength)));
@@ -139,8 +143,5 @@ weak_ptr<Port> Model::getPort(const string &portName) {
 }
 
 bool Model::seacraftExists(const string &seacraftName) const {
-    if (getSeacraft(seacraftName).lock() == weak_ptr<Seacraft>().lock()){
-        return false;
-    }
-    return true;
+    return getSeacraft(seacraftName).lock() != weak_ptr<Seacraft>().lock();
 }

@@ -11,7 +11,10 @@
 class Cruiser : public Seacraft{
 public:
     Cruiser(const string &name, Point p, int strength);
+    Cruiser(const string &craftName, Point point, int strength, float attackRadius);
     string getStatus() const override;
+private:
+    float attackRadius;
 };
 
 

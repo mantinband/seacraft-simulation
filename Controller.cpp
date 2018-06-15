@@ -167,27 +167,18 @@ void Controller::createPorts(ifstream &inputFile) {
     stringstream ss;
     ss << INITIAL_PORT;
 
-    ss >> portName;
-    ss >> c;
-    ss >> portLocation.x;
-    ss >> c;
-    ss >> portLocation.y;
-    ss >> c ;
-    ss >> initialPortFuel;
-    ss >>hourlyFuelProduction;
+    ss >> portName >> c >> portLocation.x >> c
+       >> portLocation.y >> c >> initialPortFuel >>hourlyFuelProduction;
 
     Model::getInstance().addPort(portName, portLocation, initialPortFuel, hourlyFuelProduction);
 
     while (inputFile >> portName &&
            inputFile >> c && inputFile >> portLocation.x  &&
-            inputFile >> c && inputFile >> portLocation.y && inputFile >> c &&
+           inputFile >> c && inputFile >> portLocation.y && inputFile >> c &&
            inputFile >> initialPortFuel && inputFile >> hourlyFuelProduction) {
-        try {
-            Model::getInstance()
-                    .addPort(portName, portLocation, initialPortFuel, hourlyFuelProduction);
-        } catch (exception &e) {
-            throw e;
-        }
+        Model::getInstance().addPort(portName,
+                                     portLocation, initialPortFuel, hourlyFuelProduction);
+
     }
 
 }

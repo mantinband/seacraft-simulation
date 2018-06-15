@@ -8,7 +8,7 @@
 #include <utility>
 
 Seacraft::Seacraft(string name, Point p, int strength)
-: SeaObject(std::move(name),p),strength(strength){
+: SeaObject(std::move(name),p),strength(strength),status(stopped){
 }
 
 string Seacraft::toString() const {
@@ -28,6 +28,7 @@ void Seacraft::setCourse(double degree, double speed) {
     courseDegree = degree;
     this->speed = speed;
     courseVector = nullptr;
+    status = movingOnCourse;
 }
 
 void Seacraft::setPosition(Point point, double speed) {
@@ -37,6 +38,7 @@ void Seacraft::setPosition(Point point, double speed) {
     courseVector->delta_y = point.y-getPoint().y;
 
     courseDegree = to_degrees(Polar_vector(*courseVector).theta);
+    status = movingToPosition;
 }
 
 double Seacraft::getCourseDegree() const {
@@ -59,12 +61,13 @@ const shared_ptr<Cartesian_vector> &Seacraft::getCourseVector() const {
 void Seacraft::setDestination(weak_ptr<Port> destination, double speed) {
     this->speed = speed;
     this->destination = destination;
+
     courseVector = make_shared<Cartesian_vector>();
     courseVector->delta_x = destination.lock()->getPoint().x-getPoint().x;
     courseVector->delta_y = destination.lock()->getPoint().y-getPoint().y;
-    cout << courseVector->delta_x << " " << courseVector->delta_y << endl;
     courseDegree = to_degrees(Polar_vector(*courseVector).theta);
 
+    status = movingToPort;
 }
 
 

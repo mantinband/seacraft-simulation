@@ -11,6 +11,16 @@
 using namespace std;
 class Port;
 
+
+enum Status{
+    movingToPosition,
+    movingToPort,
+    movingOnCourse,
+    dockedAt,
+    stopped,
+    deadInTheWater
+};
+
 class Seacraft : public SeaObject {
 public:
     Seacraft(string name, Point p, int strength);
@@ -39,6 +49,7 @@ private:
     int strength;
     double speed;
     double courseDegree;
+    Status status;
     weak_ptr<Port> destination;
     shared_ptr<Cartesian_vector> courseVector;
 
