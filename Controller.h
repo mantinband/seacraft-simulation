@@ -81,6 +81,12 @@ public:
                     "\n[ portName (locationX,locationY) hourlyFuelProduction hourlyFuelProduction ]";
         }
     };
+
+    struct invalidInputException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Invalid input";
+        }
+    };
 private:
     void addSeacraft();
 

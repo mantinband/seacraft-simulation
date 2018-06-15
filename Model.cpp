@@ -96,11 +96,44 @@ void Model::setCourse(string seacraftName, double degree, double speed) {
 }
 
 void Model::setPosition(string seacraftName, Point point, double speed) {
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+
+    seacraft.lock()->setPosition(point, speed);
+}
+
+void Model::setDestination(const string &seacraftName,const string &portName, double speed) {
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+
+    weak_ptr<Port> port = getPort(portName);
+    if (port.lock() == weak_ptr<Port>().lock()){
+        throw noSuchPortException();
+    }
+
+    seacraft.lock()->setDestination(port, speed);
+
+}
+weak_ptr<Seacraft> Model::getSeacraft(const string &seacraftName) const {
     for (const auto &seacraft : seacrafts){
         if (seacraft->getName() == seacraftName){
-            seacraft->setPosition(point, speed);
-            return;
+            return seacraft;
         }
     }
-    throw noSuchSeacraftException();
+    return weak_ptr<Seacraft>();
+}
+
+weak_ptr<Port> Model::getPort(const string &portName) {
+    for (const auto &port : ports){
+        if (port->getName() == portName) {
+            return port;
+        }
+    }
+    return weak_ptr<Port>();
 }

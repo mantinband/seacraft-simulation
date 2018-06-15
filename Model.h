@@ -32,7 +32,7 @@ public:
 
     void setCourse(string seacraftName, double degree, double speed);
     void setPosition(string seacraftName, Point point, double speed);
-
+    void setDestination(const string &seacraftName,const string &portName, double speed);
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
             return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of containers)";
@@ -45,11 +45,21 @@ public:
         }
     };
 
+    struct noSuchPortException : exception {
+        const char * what() const throw() override {
+            return "ERROR: No such port";
+        }
+    };
+
 private:
     int time;
     vector<shared_ptr<Seacraft>> seacrafts;
     vector<shared_ptr<Port>> ports;
     crafts getSeacraftType(string s);
+
+    weak_ptr<Port> getPort(const string &portName);
+
+    weak_ptr<Seacraft> getSeacraft(const string &seacraftName) const;
 };
 
 
