@@ -94,9 +94,9 @@ queries Controller::getQuery(string s) {
     if (s == "load_at") return load_at;
     if (s == "unload_at") return unload_at;
     if (s == "dock_at") return dock_at;
-    if (s == "attackSeacraft") return attackSeacraft;
-    if (s == "refuelSeacraft") return refuelSeacraft;
-    if (s == "stopSeacraft") return stopSeacraft;
+    if (s == "attack") return attackSeacraft;
+    if (s == "refuel") return refuelSeacraft;
+    if (s == "stop") return stopSeacraft;
 
     if (s == "exit") return quit;
 
@@ -227,11 +227,16 @@ void Controller::seacraftOptions(const string &seacraftName) {
             cin >> portDestination;
             Model::getInstance().addUnloadDestination(seacraftName, portDestination);
         } break;
-        case dock_at:
-            break;
+        case dock_at: {
+            string portDestination;
+
+            cin >> portDestination;
+            Model::getInstance().setDockingPort(seacraftName, portDestination);
+        } break;
         case attackSeacraft:
             break;
         case refuelSeacraft:
+            Model::getInstance().refuelCraft(seacraftName);
             break;
         case stopSeacraft:
             break;

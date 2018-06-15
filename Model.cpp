@@ -185,3 +185,37 @@ void Model::addUnloadDestination(const string &seacraftName, const string &portD
     Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
     f.setUnloadAt(port);
 }
+
+void Model::setDockingPort(const string &seacraftName, const string &portDestination) {
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+    weak_ptr<Port> port = getPort(portDestination);
+
+    if (port.lock() == weak_ptr<Port>().lock()){
+        throw noSuchPortException();
+    }
+
+    if (seacraft.lock()->getClassName() != "Freighter"){
+        throw invalidCraftException();
+    }
+
+    Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
+    f.setDockingPort(port);
+}
+
+void Model::refuelCraft(const string &seacraftName) {
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+
+    if (seacraft.lock()->getClassName() == "Cruiser"){
+        throw invalidCraftException();
+    }
+
+    dynamic_cast<Freighter*>(&*seacraft.lock())->refuel();
+}

@@ -21,7 +21,8 @@ public:
 
     void setUnloadAt(weak_ptr<Port> unloadAt);
     void setLoadAt(weak_ptr<Port> loadAt);
-
+    void setDockingPort(weak_ptr<Port> dockAt);
+    void refuel();
     struct invalidLoadingPortException : exception {
         const char * what() const throw() override {
             return "ERROR: Invalid loading port";
@@ -33,10 +34,18 @@ public:
             return "ERROR: Invalid unloading port";
         }
     };
+
+    struct invalidRefuelRequestException : exception {
+        const char * what() const throw() override {
+            return "ERROR: Invalid refuel request";
+        }
+    };
+
+
 private:
     int containers;
     weak_ptr<Port> loadAt;
-
+    weak_ptr<Port> dockAt;
     weak_ptr<Port> unloadAt;
 };
 

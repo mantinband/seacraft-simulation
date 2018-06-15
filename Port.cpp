@@ -21,3 +21,9 @@ string Port::getStatusDetails() const {
             << fixed<< setprecision(2) << hourlyFuelProduction << " kl";
     return ss.str();
 }
+
+void Port::addToRefuelQueue(const shared_ptr<Seacraft> &toAdd) {
+    refuelQueue.push(toAdd);
+    cout << toAdd->getName() << " added to queue" << endl;
+
+}

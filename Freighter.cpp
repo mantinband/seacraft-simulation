@@ -3,9 +3,9 @@
 //
 
 #include "Freighter.h"
-
-#include <utility>
 #include "Port.h"
+#include "Model.h"
+
 Freighter::Freighter(const string &name, Point p, int strength, int containers)
         : Seacraft(name, p, strength) ,containers(containers){
     setFuel(FUEL_TANK_SIZE);
@@ -46,6 +46,11 @@ string Freighter::getStatusDetails() const {
             ss << ", moving to unloading destination";
         }
     }
+
+    if (loadAt.lock() == weak_ptr<Port>().lock() &&
+            unloadAt.lock() == weak_ptr<Port>().lock()){
+        ss << ", no cargo destinations";
+    }
     return ss.str();
 }
 
@@ -65,4 +70,17 @@ void Freighter::setUnloadAt(weak_ptr<Port> unloadAt) {
         throw invalidUnloadingPortException();
     }
     this->loadAt = unloadAt;
+}
+
+void Freighter::setDockingPort(weak_ptr<Port> dockAt) {
+    this->dockAt = dockAt;
+}
+
+void Freighter::refuel() {
+    if (getStatus() != dockedAt){
+        throw invalidRefuelRequestException();
+    }
+
+    dockAt.lock()->addToRefuelQueue(shared_ptr<Seacraft>(this));
+
 }
