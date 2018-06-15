@@ -10,7 +10,6 @@ int main(int argc, char **argv) {
 
     if (argc < 2){
         cerr << "Invalid initialization. [expected: ./executionName portFile]" << endl;
-        exit(1);
     }
 
     ifs.open(argv[1],ios_base::in);

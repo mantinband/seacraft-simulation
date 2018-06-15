@@ -33,6 +33,8 @@ public:
     void setCourse(string seacraftName, double degree, double speed);
     void setPosition(string seacraftName, Point point, double speed);
     void setDestination(const string &seacraftName,const string &portName, double speed);
+    bool seacraftExists(const string &seacraftName) const;
+
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
             return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of containers)";

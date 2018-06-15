@@ -4,54 +4,41 @@
 
 #include "Controller.h"
 
+const string Controller::INITIAL_PORT = "Nagoya (50,5) 1000000 1000";
+
 void Controller::run(ifstream &inputFile) {
     string input;
 
-    try {
-        createPorts(inputFile);
-    } catch (exception &e){
-        throw e;
-    }
-
-
-
+    createPorts(inputFile);
 
     cout << "Time " << Model::getInstance().getTime() << ": ";
     cout << "Enter command: ";
+    cin >> input;
 
     while (getQuery(input) != quit){
         try {
-            if (cin.fail()){
-                throw invalidInputException();
-            }
-            
+
             switch (getQuery(input)) {
                 case defaultMap:
                     view->restoreDefault();
                     break;
-                case changeMapSize:
+                case changeMapSize: {
                     int size;
-                    if (!(cin >> size)){
-                        throw invalidMapSize();
-                    }
+                    cin >> size;
 
                     view->setDisplaySize(size);
-
-                    break;
+                } break;
                 case zoomMap:{
                     double scale;
 
-                    if (!(cin >> scale)){
-                        throw invalidScaleException();
-                    }
+                    cin >> scale;
 
                     view->setScale(scale);
                 } break;
                 case panMap: {
                     Point p;
-                    if (!(cin >> p.x) || !(cin >> p.y)){
-                        throw invalidLocationException();
-                    }
+                    cin >> p.x;
+                    cin >> p.y;
                     view->setOrigin(p);
                 }break;
                 case showMap:
@@ -67,64 +54,17 @@ void Controller::run(ifstream &inputFile) {
                     break;
 
                 default: {
-                    string seacraftName;
-                    seacraftName = input;
-                    if (!(cin >> input)){
-                        throw invalidInputException();
+                    if (!Model::getInstance().seacraftExists(input)){
+                        cerr << "ERROR: Invalid query. try again:" << endl;
+
+                        break;
                     }
-
-                    switch (getQuery(input)){
-                        case course:{
-                            double degree;
-                            double speed;
-
-                            if (!(cin >> degree) || !(cin >> speed)){
-                                throw invalidInputException();
-                            }
-                            Model::getInstance().setCourse(seacraftName, degree, speed);
-                        } break;
-                        case position:{
-                            Point p;
-                            double speed;
-
-                            parseLocation(p,cin);
-                            if (!(cin >> speed)){
-                                throw invalidInputException();
-                            }
-                            Model::getInstance().setPosition(seacraftName, p, speed);
-                        } break;
-                        case destination: {
-                            string portName;
-                            double speed;
-
-                            if (!(cin >> portName) || !(cin >> speed)){
-                                throw invalidInputException();
-                            }
-
-                            Model::getInstance().setDestination(seacraftName, portName, speed);
-                        } break;
-                        case load_at:
-                            break;
-                        case unload_at:
-                            break;
-                        case dock_at:
-                            break;
-                        case attackSeacraft:
-                            break;
-                        case refuelSeacraft:
-                            break;
-                        case stopSeacraft:
-                            break;
-                        default:
-                            cerr << "ERROR: Invalid query. try again:" << endl;
-                            cin.ignore(INT32_MAX,'\n');
-                            break;
-
-                    }
+                    seacraftOptions(input);
                 }
             }
         } catch (exception &e){
             cerr << e.what() << endl;
+            cin.clear();
             cin.ignore(INT32_MAX,'\n');
         }
         cout << "Time " << Model::getInstance().getTime() << ": ";
@@ -164,15 +104,16 @@ queries Controller::getQuery(string s) {
 
 void Controller::parseLocation(Point &p, istream &is) {
     char c;
-    if (!(is >> c) || !(is >> p.x)){ // "(double"
-        throw invalidLocationException();
-    }
+    is >> c;
+    is >> p.x;
+
     if (is.fail() || c != '('){
         throw invalidLocationException();
     }
-    if (!(is >> c) || !(is >> p.y)){ // ",double
-        throw invalidLocationException();
-    }
+
+    is >> c;
+    is >> p.y;
+
     if (is.fail() || c != ','){
         throw invalidLocationException();
     }
@@ -192,14 +133,17 @@ void Controller::addSeacraft() {
     int strength;
     string extraInfo;
 
-    if (!(cin >> craftName) || !(cin >> craftType) || !(cin >> strength)){
-        throw invalidInputException();
-    }
+    cin >> craftName;
+    cin >> craftType;
 
     parseLocation(point,cin);
 
-    if (!(getline(cin,extraInfo))){
-        throw invalidInputException();
+    cin >> strength;
+
+    getline(cin,extraInfo);
+
+    if (Model::getInstance().seacraftExists(craftName)){
+        throw invalidCraftNameException();
     }
 
     Model::getInstance().addCraft(craftName,craftType,point,strength,extraInfo);
@@ -220,6 +164,19 @@ void Controller::createPorts(ifstream &inputFile) {
     double hourlyFuelProduction;
     char c;
     Point portLocation;
+    stringstream ss;
+    ss << INITIAL_PORT;
+
+    ss >> portName;
+    ss >> c;
+    ss >> portLocation.x;
+    ss >> c;
+    ss >> portLocation.y;
+    ss >> c ;
+    ss >> initialPortFuel;
+    ss >>hourlyFuelProduction;
+
+    Model::getInstance().addPort(portName, portLocation, initialPortFuel, hourlyFuelProduction);
 
     while (inputFile >> portName &&
            inputFile >> c && inputFile >> portLocation.x  &&
@@ -233,5 +190,59 @@ void Controller::createPorts(ifstream &inputFile) {
         }
     }
 
+}
+
+void Controller::seacraftOptions(const string &seacraftName) {
+    string input;
+
+    cin >> input;
+    switch (getQuery(input)){
+        case course:{
+            double degree;
+            double speed;
+
+            cin >> degree;
+
+            cin >> speed;
+
+            Model::getInstance().setCourse(seacraftName, degree, speed);
+        } break;
+        case position:{
+            Point p;
+            double speed;
+
+            parseLocation(p,cin);
+            cin >> speed;
+
+            Model::getInstance().setPosition(seacraftName, p, speed);
+        } break;
+        case destination: {
+            string portName;
+            double speed;
+
+            cin >> portName;
+            cin >> speed;
+
+            Model::getInstance().setDestination(seacraftName, portName, speed);
+        } break;
+        case load_at:
+            break;
+        case unload_at:
+            break;
+        case dock_at:
+            break;
+        case attackSeacraft:
+            break;
+        case refuelSeacraft:
+            break;
+        case stopSeacraft:
+            break;
+        default:
+            cerr << "ERROR: Invalid query. try again:" << endl;
+            cin.clear();
+            cin.ignore(INT32_MAX,'\n');
+            break;
+
+    }
 }
 

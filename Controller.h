@@ -87,12 +87,51 @@ public:
             return "ERROR: Invalid input";
         }
     };
+
+    struct invalidSeacraftException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Invalid seacraft";
+        }
+    };
+
+    struct invalidDegreeException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Invalid degree";
+        }
+    };
+
+    struct invalidSpeedException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Invalid speed";
+        }
+    };
+    struct invalidPortException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Invalid port";
+        }
+    };
+    struct invalidInitialPortException : exception {
+        string message = "ERROR: Initial port " + INITIAL_PORT + " is invalid";
+        const char * what() const throw() override{
+            return message.c_str();
+        }
+    };
+
+    struct invalidCraftNameException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Invalid craft name";
+        }
+    };
 private:
     void addSeacraft();
 
     shared_ptr<View> view;
 
-    void createPorts(ifstream &basicIfstream);
+    void createPorts(ifstream &inputFile);
+
+    static const string INITIAL_PORT;
+
+    void seacraftOptions(const string &seacraftName);
 };
 
 

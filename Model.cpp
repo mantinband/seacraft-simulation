@@ -137,3 +137,10 @@ weak_ptr<Port> Model::getPort(const string &portName) {
     }
     return weak_ptr<Port>();
 }
+
+bool Model::seacraftExists(const string &seacraftName) const {
+    if (getSeacraft(seacraftName).lock() == weak_ptr<Seacraft>().lock()){
+        return false;
+    }
+    return true;
+}
