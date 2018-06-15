@@ -17,11 +17,27 @@ public:
     Freighter(const string &name, Point p, int strength, int containers=0);
 
     string getStatusDetails() const override;
+    string getClassName() const override;
 
+    void setUnloadAt(weak_ptr<Port> unloadAt);
+    void setLoadAt(weak_ptr<Port> loadAt);
+
+    struct invalidLoadingPortException : exception {
+        const char * what() const throw() override {
+            return "ERROR: Invalid loading port";
+        }
+    };
+
+    struct invalidUnloadingPortException : exception {
+        const char * what() const throw() override {
+            return "ERROR: Invalid unloading port";
+        }
+    };
 private:
     int containers;
     weak_ptr<Port> loadAt;
-    weak_ptr<Port> unLoadAt;
+
+    weak_ptr<Port> unloadAt;
 };
 
 

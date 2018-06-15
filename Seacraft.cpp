@@ -33,6 +33,7 @@ void Seacraft::setCourse(double degree, double speed) {
 
 void Seacraft::setPosition(Point point, double speed) {
     this->speed = speed;
+    endPosition = point;
     courseVector = make_shared<Cartesian_vector>();
     courseVector->delta_x = point.x-getPoint().x;
     courseVector->delta_y = point.y-getPoint().y;
@@ -74,4 +75,6 @@ Status Seacraft::getStatus() const {
     return status;
 }
 
-
+const Point &Seacraft::getEndPosition() const {
+    return endPosition;
+}

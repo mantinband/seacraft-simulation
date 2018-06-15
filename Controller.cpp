@@ -56,7 +56,8 @@ void Controller::run(ifstream &inputFile) {
                 default: {
                     if (!Model::getInstance().seacraftExists(input)){
                         cerr << "ERROR: Invalid query. try again:" << endl;
-
+                        cin.clear();
+                        cin.ignore(INT32_MAX,'\n');
                         break;
                     }
                     seacraftOptions(input);
@@ -195,9 +196,7 @@ void Controller::seacraftOptions(const string &seacraftName) {
             double speed;
 
             cin >> degree;
-
             cin >> speed;
-
             Model::getInstance().setCourse(seacraftName, degree, speed);
         } break;
         case position:{
@@ -206,7 +205,6 @@ void Controller::seacraftOptions(const string &seacraftName) {
 
             parseLocation(p,cin);
             cin >> speed;
-
             Model::getInstance().setPosition(seacraftName, p, speed);
         } break;
         case destination: {
@@ -215,13 +213,20 @@ void Controller::seacraftOptions(const string &seacraftName) {
 
             cin >> portName;
             cin >> speed;
-
             Model::getInstance().setDestination(seacraftName, portName, speed);
         } break;
-        case load_at:
-            break;
-        case unload_at:
-            break;
+        case load_at: {
+            string portDestination;
+
+            cin >> portDestination;
+            Model::getInstance().addLoadDestination(seacraftName, portDestination);
+        } break;
+        case unload_at: {
+            string portDestination;
+
+            cin >> portDestination;
+            Model::getInstance().addUnloadDestination(seacraftName, portDestination);
+        } break;
         case dock_at:
             break;
         case attackSeacraft:

@@ -21,3 +21,7 @@ Cruiser::Cruiser(const string &craftName, Point point, int strength, float attac
 :Seacraft(craftName,point,strength) {
     this->attackRadius = attackRadius;
 }
+
+string Cruiser::getClassName() const {
+    return "Cruiser";
+}

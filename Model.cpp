@@ -145,3 +145,43 @@ weak_ptr<Port> Model::getPort(const string &portName) {
 bool Model::seacraftExists(const string &seacraftName) const {
     return getSeacraft(seacraftName).lock() != weak_ptr<Seacraft>().lock();
 }
+
+void Model::addLoadDestination(const string &seacraftName, const string &portDestination) {
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+    weak_ptr<Port> port = getPort(portDestination);
+
+    if (port.lock() == weak_ptr<Port>().lock()){
+        throw noSuchPortException();
+    }
+
+    if (seacraft.lock()->getClassName() != "Freighter"){
+        throw invalidCraftException();
+    }
+
+    Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
+    f.setLoadAt(port);
+}
+
+void Model::addUnloadDestination(const string &seacraftName, const string &portDestination) {
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+    weak_ptr<Port> port = getPort(portDestination);
+
+    if (port.lock() == weak_ptr<Port>().lock()){
+        throw noSuchPortException();
+    }
+
+    if (seacraft.lock()->getClassName() != "Freighter"){
+        throw invalidCraftException();
+    }
+
+    Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
+    f.setUnloadAt(port);
+}

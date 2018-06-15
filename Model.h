@@ -34,6 +34,8 @@ public:
     void setPosition(string seacraftName, Point point, double speed);
     void setDestination(const string &seacraftName,const string &portName, double speed);
     bool seacraftExists(const string &seacraftName) const;
+    void addLoadDestination(const string &seacraftName,const string &portDestination);
+    void addUnloadDestination(const string &seacraftName,const string &portDestination);
 
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
@@ -53,6 +55,11 @@ public:
         }
     };
 
+    struct invalidCraftException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Invalid craft";
+        }
+    };
 private:
     int time;
     vector<shared_ptr<Seacraft>> seacrafts;

@@ -16,6 +16,7 @@ typedef struct Point {
 	Point(double x, double y);
 	Point();
 	void print() const;
+	string toString() const;
 	bool operator==(const Point& rhs);
 } Point;
 

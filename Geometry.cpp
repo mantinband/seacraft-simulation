@@ -1,5 +1,6 @@
 #include "Geometry.h"
 #include <cmath>
+#include <sstream>
 
 const double pi = 2. * atan2(1., 0.);
 
@@ -74,4 +75,10 @@ void Point::print() const
 bool Point::operator==(const Point & rhs)
 {
 	return x == rhs.x && y == rhs.y;
+}
+
+string Point::toString() const {
+	stringstream ss;
+	ss << fixed << setprecision(2) << "(" << x << ", " << y << ")";
+    return ss.str();
 }
