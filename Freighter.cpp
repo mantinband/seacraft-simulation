@@ -9,7 +9,7 @@ Freighter::Freighter(const string &name, Point p, int strength, int containers)
     setFuel(FUEL_TANK_SIZE);
 }
 
-string Freighter::getStatus() const {
+string Freighter::getStatusDetails() const {
     stringstream ss;
     ss << "Freighter " << getName() << " at " << getPointString()
             << ", fuel: " << fixed << setprecision(2) << getFuel()

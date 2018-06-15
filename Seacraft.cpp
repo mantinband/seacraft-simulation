@@ -70,4 +70,8 @@ void Seacraft::setDestination(weak_ptr<Port> destination, double speed) {
     status = movingToPort;
 }
 
+Status Seacraft::getStatus() const {
+    return status;
+}
+
 

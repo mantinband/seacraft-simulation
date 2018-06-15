@@ -11,9 +11,12 @@
 class PatrolBoat : public Seacraft{
 public:
     static const int FUEL_TANK_SIZE = 900;
+    static const int FUEL_CONSUMPTION = 2000;
+    static const int MAX_SPEED = 15;
+
     PatrolBoat(const string &name, Point p, int strength);
 
-    string getStatus() const override;
+    string getStatusDetails() const override;
 };
 
 

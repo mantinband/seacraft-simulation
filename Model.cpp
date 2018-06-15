@@ -41,11 +41,11 @@ string Model::getStatus() const {
     string status;
 
     for (const auto &port : ports){
-        status += port->getStatus() + "\n";
+        status += port->getStatusDetails() + "\n";
     }
 
     for (const auto &craft : seacrafts){
-        status += craft->getStatus() + "\n";
+        status += craft->getStatusDetails() + "\n";
     }
 
     return status;

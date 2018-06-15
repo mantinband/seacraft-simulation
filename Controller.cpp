@@ -134,6 +134,11 @@ void Controller::addSeacraft() {
     string extraInfo;
 
     cin >> craftName;
+
+    if (Model::getInstance().seacraftExists(craftName)){
+        throw invalidCraftNameException();
+    }
+
     cin >> craftType;
 
     parseLocation(point,cin);
@@ -142,9 +147,6 @@ void Controller::addSeacraft() {
 
     getline(cin,extraInfo);
 
-    if (Model::getInstance().seacraftExists(craftName)){
-        throw invalidCraftNameException();
-    }
 
     Model::getInstance().addCraft(craftName,craftType,point,strength,extraInfo);
 }

@@ -29,6 +29,8 @@ public:
     void setCourse(double degree, double speed);
     void setPosition(Point point, double speed);
 
+    Status getStatus() const;
+
     double getSpeed() const;
 
     weak_ptr<Port> getDestination() const;

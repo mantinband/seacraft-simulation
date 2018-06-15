@@ -16,7 +16,7 @@ public:
     string getName() const;
     string getPointString() const;
     SeaObject(string name, const Point &point);
-    virtual string getStatus() const=0;
+    virtual string getStatusDetails() const=0;
     const Point &getPoint() const;
     double getFuel() const;
     void setFuel(double fuel);

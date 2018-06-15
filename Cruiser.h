@@ -10,9 +10,11 @@
 
 class Cruiser : public Seacraft{
 public:
-    Cruiser(const string &name, Point p, int strength);
-    Cruiser(const string &craftName, Point point, int strength, float attackRadius);
-    string getStatus() const override;
+    const static int MAX_SPEED = 75;
+    const static int DEFAULT_ATTACK_RADIUS = 5;
+
+    Cruiser(const string &craftName, Point point, int strength, float attackRadius=DEFAULT_ATTACK_RADIUS);
+    string getStatusDetails() const override;
 private:
     float attackRadius;
 };

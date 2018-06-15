@@ -4,14 +4,17 @@
 
 #include "Cruiser.h"
 
-Cruiser::Cruiser(const string &name, Point p, int strength) :
-        Seacraft(name, p, strength) {}
 
-string Cruiser::getStatus() const {
+string Cruiser::getStatusDetails() const {
     stringstream ss;
     ss << "Cruiser " << getName() << " at position "
        << getPointString() << ", force: " << getStrength();
-    return ss.str(); //TODO: ADD DEGREE, SPEED, COURSE
+
+    if (getStatus() != stopped){
+        ss << ", Moving on course " << fixed << setprecision(2) << getCourseDegree()
+           << " deg, speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
+    }
+    return ss.str();
 }
 
 Cruiser::Cruiser(const string &craftName, Point point, int strength, float attackRadius)

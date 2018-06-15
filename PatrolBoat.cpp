@@ -10,7 +10,7 @@ PatrolBoat::PatrolBoat(const string &name, Point p, int strength)
     setFuel(FUEL_TANK_SIZE);
 }
 
-string PatrolBoat::getStatus() const {
+string PatrolBoat::getStatusDetails() const {
     stringstream ss;
     ss << "Patrol_boat " << getName() << " at " << getPointString()
        << ", fuel: " << fixed << setprecision(2)
