@@ -31,23 +31,25 @@ void Port::addToRefuelQueue(const shared_ptr<Seacraft> &toAdd) {
 /*  fuel amount += hourly fuel production
  *  refuel seacraft if queue is not empty   */
 void Port::update() {
-    setFuel(getFuel()+hourlyFuelProduction);
 
+    setFuel(getFuel()+hourlyFuelProduction);
+    cout << "here1" << endl;
     /*  refuel craft that is waiting to be refueled*/
     if (!refuelQueue.empty()){
-        weak_ptr<Seacraft> toRefuel = refuelQueue.front();
-        refuelQueue.pop();
+        cout << refuelQueue.front()->getName() << endl;
+        shared_ptr<Seacraft> toRefuel = refuelQueue.front();
 
         /*  if seacraft needs more fuel than is available   */
-        if (Freighter::FUEL_TANK_SIZE - toRefuel.lock()->getFuel() > getFuel()){
-            toRefuel.lock()->setFuel(toRefuel.lock()->getFuel()+getFuel());
+        if (Freighter::FUEL_TANK_SIZE - toRefuel->getFuel() > getFuel()){
+            toRefuel->setFuel(toRefuel->getFuel()+getFuel());
             setFuel(0);
         } else {
             /*  subtract amount that is given to craft from ports total amount */
-            setFuel(getFuel() - (Freighter::FUEL_TANK_SIZE - toRefuel.lock()->getFuel()));
+            setFuel(getFuel() - (Freighter::FUEL_TANK_SIZE - toRefuel->getFuel()));
 
             /*  refill craft to MAX */
-            toRefuel.lock()->setFuel(Freighter::FUEL_TANK_SIZE);
+            toRefuel->setFuel(Freighter::FUEL_TANK_SIZE);
         }
+        refuelQueue.pop();
     }
 }
