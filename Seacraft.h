@@ -37,9 +37,9 @@ public:
     const Point &getEndPosition() const;
 
     void stop();
-    void setCourse(double degree, double speed);
-    void setPosition(Point point, double speed);
-    void setDestination(weak_ptr<Port> destination, double speed);
+    virtual void setCourse(double degree, double speed);
+    virtual void setPosition(Point point, double speed);
+    virtual void setDestination(weak_ptr<Port> destination, double speed);
 
     void setStatus(Status status);
     void setSpeed(double speed);

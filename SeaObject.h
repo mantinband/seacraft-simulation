@@ -29,7 +29,7 @@ public:
 
     struct invalidFuelException : exception {
         const char *what() const throw() override{
-            return "Fuel amount must be positive";
+            return "ERROR: Invalid fuel amount";
         }
     };
 

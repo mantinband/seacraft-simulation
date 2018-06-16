@@ -11,6 +11,7 @@ Freighter::Freighter(const string &name, Point p, int strength, int containers)
     setFuel(FUEL_TANK_SIZE);
     loadAt = weak_ptr<Port>();
     unloadAt = weak_ptr<Port>();
+    currentlyAt = weak_ptr<Port>();
 }
 
 string Freighter::getStatusDetails() const {
@@ -34,7 +35,7 @@ string Freighter::getStatusDetails() const {
         ss << " on course " << fixed << setprecision(2) << getCourseDegree()
                             << " deg, speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
     } else if (getStatus() == dockedAt){
-        ss << " docked at: " << getDestination().lock()->getName();
+        ss << " docked at: " << currentlyAt.lock()->getName();
     }
 
     ss << ", containers: " << numContainers;
@@ -82,7 +83,7 @@ void Freighter::refuel() {
         throw invalidRefuelRequestException();
     }
 
-    dockAt.lock()->addToRefuelQueue(shared_ptr<Seacraft>(this));
+    currentlyAt.lock()->addToRefuelQueue(shared_ptr<Seacraft>(this));
 
 }
 
@@ -96,6 +97,7 @@ void Freighter::update() {
                     setSpeed(0);
                     setEndPosition(nullptr);
                     setCourseVector(nullptr);
+                    setStatus(stopped);
                 } else {
                     setFuel(getFuel()-getSpeed()*FUEL_CONSUMPTION);
                     moveOnCourse(getSpeed());
@@ -109,6 +111,8 @@ void Freighter::update() {
                     setEndPosition(nullptr);
                     setCourseVector(nullptr);
                     setStatus(dockedAt);
+                    currentlyAt = getDestination();
+                    setDestinationPort(weak_ptr<Port>());
                 } else {
                     setFuel(getFuel()-getSpeed()*FUEL_CONSUMPTION);
                     moveOnCourse(getSpeed());
@@ -121,10 +125,12 @@ void Freighter::update() {
                 moveOnCourse(getSpeed());
                 break;
             case dockedAt:
-                if (loadAt.lock() == getDestination().lock()){
+                if (loadAt.lock() == currentlyAt.lock()){
                     numContainers = maxContainers;
-                } else if (unloadAt.lock() == getDestination().lock()){
+                    loadAt = weak_ptr<Port>();
+                } else if (unloadAt.lock() == currentlyAt.lock()){
                     numContainers -= numContainersToUnload;
+                    unloadAt = weak_ptr<Port>();
                     if (numContainers < 0){
                         throw notEnoughContainersToUnloadException();
                     }
@@ -191,4 +197,19 @@ double Freighter::getDistance(const Point &point) {
     double distance = square(getLocation().x-point.x) + square(getLocation().y-point.y);
     distance = sqrt(distance);
     return distance;
+}
+
+void Freighter::setCourse(double degree, double speed) {
+    Seacraft::setCourse(degree, speed);
+    currentlyAt = weak_ptr<Port>();
+}
+
+void Freighter::setPosition(Point point, double speed) {
+    Seacraft::setPosition(point, speed);
+    currentlyAt = weak_ptr<Port>();
+}
+
+void Freighter::setDestination(weak_ptr<Port> destination, double speed) {
+    Seacraft::setDestination(destination, speed);
+    currentlyAt = weak_ptr<Port>();
 }

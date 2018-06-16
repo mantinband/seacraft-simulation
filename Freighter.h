@@ -68,7 +68,15 @@ private:
     weak_ptr<Port> loadAt;
     weak_ptr<Port> dockAt;
     weak_ptr<Port> unloadAt;
+    weak_ptr<Port> currentlyAt;
+public:
+    void setCourse(double degree, double speed) override;
 
+    void setPosition(Point point, double speed) override;
+
+    void setDestination(weak_ptr<Port> destination, double speed) override;
+
+private:
     bool portIsInReach();
     bool positionIsInReach();
 

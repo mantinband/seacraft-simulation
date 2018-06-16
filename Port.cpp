@@ -24,7 +24,7 @@ string Port::getStatusDetails() const {
 }
 
 void Port::addToRefuelQueue(const shared_ptr<Seacraft> &toAdd) {
-    refuelQueue.push(toAdd);
+    refuelQueue.push(toAdd);    //TODO: fix segmentation fault
     cout << toAdd->getName() << " added to queue" << endl;
 }
 

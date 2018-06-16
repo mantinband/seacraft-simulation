@@ -6,8 +6,8 @@
 #define SEACRAFT_SIMULATION_PORT_H
 
 
-#include <queue>
 #include <memory>
+#include <queue>
 #include "SeaObject.h"
 #include "Seacraft.h"
 
@@ -20,6 +20,7 @@ public:
     void update() override;
 
 private:
+    int a;
     queue<weak_ptr<Seacraft>> refuelQueue;
     double hourlyFuelProduction;
 };
