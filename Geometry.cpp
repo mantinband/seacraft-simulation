@@ -82,3 +82,7 @@ string Point::toString() const {
 	ss << fixed << setprecision(2) << "(" << x << ", " << y << ")";
     return ss.str();
 }
+
+double square(double d){
+	return d*d;
+}

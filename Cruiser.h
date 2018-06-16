@@ -15,12 +15,20 @@ public:
 
     Cruiser(const string &craftName, Point point, int strength, float attackRadius=DEFAULT_ATTACK_RADIUS);
 
-
+    void attack(weak_ptr<Seacraft> seacraft);
     string getClassName() const override;
 
     string getStatusDetails() const override;
+
+    struct seacraftNotInAttackRadiusException : exception {
+        const char * what() const throw() override{
+            return "ERROR: Seacraft not in attack radius";
+        }
+    };
 private:
     float attackRadius;
+    weak_ptr<Seacraft> toAttack;
+    bool seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft);
 };
 
 

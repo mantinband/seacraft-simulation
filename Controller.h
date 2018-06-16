@@ -131,7 +131,7 @@ private:
 
     static const string INITIAL_PORT;
 
-    void seacraftOptions(const string &seacraftName);
+    void seacraftOptions(string seacraftName);
 };
 
 

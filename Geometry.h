@@ -40,4 +40,6 @@ typedef struct Polar_vector {
 	double theta;
 } Polar_vector;
 
+double square(double d);
+
 #endif

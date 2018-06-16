@@ -229,3 +229,25 @@ void Model::stopSeacraft(const string &seacraftName) {
 
     seacraft.lock()->stop();
 }
+
+void Model::attackSeacraft(const string &pirateShipName,const string &seacraftName) {
+    weak_ptr<Seacraft> pirateCraft = getSeacraft(seacraftName);
+
+    if (pirateCraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+
+
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+
+    if (pirateCraft.lock()->getClassName() != "Cruiser" || seacraft.lock()->getClassName() == "Cruiser"){
+        throw invalidCraftException();
+    }
+
+    dynamic_cast<Cruiser*>(&*pirateCraft.lock())->attack(seacraft);
+}

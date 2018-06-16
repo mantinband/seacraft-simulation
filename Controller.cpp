@@ -186,7 +186,7 @@ void Controller::createPorts(ifstream &inputFile) {
 
 }
 
-void Controller::seacraftOptions(const string &seacraftName) {
+void Controller::seacraftOptions(string seacraftName) {
     string input;
 
     cin >> input;
@@ -233,8 +233,12 @@ void Controller::seacraftOptions(const string &seacraftName) {
             cin >> portDestination;
             Model::getInstance().setDockingPort(seacraftName, portDestination);
         } break;
-        case attackSeacraft:
+        case attackSeacraft: {
+            string pirateShipName = seacraftName;
+            cin >> seacraftName;
+            Model::getInstance().attackSeacraft(pirateShipName, seacraftName);
             break;
+        }
         case refuelSeacraft:
             Model::getInstance().refuelCraft(seacraftName);
             break;

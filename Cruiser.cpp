@@ -18,11 +18,25 @@ string Cruiser::getStatusDetails() const {
 }
 
 Cruiser::Cruiser(const string &craftName, Point point, int strength, float attackRadius)
-:Seacraft(craftName,point,strength) {
-    this->attackRadius = attackRadius;
+:Seacraft(craftName,point,strength),attackRadius(attackRadius), toAttack(weak_ptr<Seacraft>()){
 }
 
 string Cruiser::getClassName() const {
     return "Cruiser";
+}
+
+void Cruiser::attack(weak_ptr<Seacraft> seacraft) {
+    if (!seacraftIsInAttackRadius(seacraft)){
+        throw seacraftNotInAttackRadiusException();
+    }
+
+    toAttack = seacraft;
+}
+
+bool Cruiser::seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft) {
+    double distanceSquared = square(seacraft.lock()->getPoint().x-getPoint().x)
+                        + square(seacraft.lock()->getPoint().y-getPoint().y);
+
+    return distanceSquared <= square(attackRadius);
 }
 
