@@ -7,7 +7,7 @@
 #include "Model.h"
 
 Freighter::Freighter(const string &name, Point p, int strength, int containers)
-        : Seacraft(name, p, strength) ,containers(containers){
+        : Seacraft(name, p, strength) ,maxContainers(containers),numContainers(0){
     setFuel(FUEL_TANK_SIZE);
     loadAt = weak_ptr<Port>();
     unloadAt = weak_ptr<Port>();
@@ -37,7 +37,7 @@ string Freighter::getStatusDetails() const {
         ss << " docked at: " << getDestination().lock()->getName();
     }
 
-    ss << ", containers: " << containers;
+    ss << ", containers: " << numContainers;
 
     if (getStatus() == movingToPort){
         if (loadAt.lock() != weak_ptr<Port>().lock() && getDestination().lock()->getName() == loadAt.lock()->getName()) {
@@ -82,5 +82,9 @@ void Freighter::refuel() {
     }
 
     dockAt.lock()->addToRefuelQueue(shared_ptr<Seacraft>(this));
+
+}
+
+void Freighter::update() {
 
 }

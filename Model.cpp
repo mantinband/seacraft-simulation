@@ -251,3 +251,12 @@ void Model::attackSeacraft(const string &pirateShipName,const string &seacraftNa
 
     dynamic_cast<Cruiser*>(&*pirateCraft.lock())->attack(seacraft);
 }
+
+void Model::update() {
+    for (const auto &port : ports){
+        port->update();
+    }
+    for (const auto &seacraft : seacrafts){
+        seacraft->update();
+    }
+}

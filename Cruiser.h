@@ -28,6 +28,10 @@ public:
 private:
     float attackRadius;
     weak_ptr<Seacraft> toAttack;
+public:
+    void update() override;
+
+private:
     bool seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft);
 };
 

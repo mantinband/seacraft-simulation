@@ -44,7 +44,12 @@ public:
 
 
 private:
-    int containers;
+    int maxContainers;
+    int numContainers;
+public:
+    void update() override;
+
+private:
     weak_ptr<Port> loadAt;
     weak_ptr<Port> dockAt;
     weak_ptr<Port> unloadAt;

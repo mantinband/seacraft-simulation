@@ -14,6 +14,7 @@ public:
     static const int FUEL_CONSUMPTION = 2000;
     static const int MAX_SPEED = 15;
 
+    void update() override;
 
     string getClassName() const override;
 

@@ -36,6 +36,7 @@ enum queries {
     refuelSeacraft,
     stopSeacraft,
 
+    go,
     quit,
     invalidQuery
 };

@@ -23,6 +23,8 @@ public:
     bool isIn(const Point &p, double scale) const;
     string getInitials() const;
 
+    virtual void update()=0;
+
     struct invalidFuelException : exception {
         const char *what() const throw() override{
             return "Fuel amount must be positive";

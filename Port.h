@@ -17,6 +17,9 @@ public:
     Port(string name, Point point, double initialFuel, double hourlyFuelProduction);
     string getStatusDetails() const override;
     void addToRefuelQueue(const shared_ptr<Seacraft> &toAdd);
+
+    void update() override;
+
 private:
     double hourlyFuelProduction;
     queue<weak_ptr<Seacraft>> refuelQueue;

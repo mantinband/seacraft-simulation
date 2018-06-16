@@ -39,14 +39,14 @@ public:
 
     double getCourseDegree() const;
 
-    virtual string getClassName() const =0;
-
     void setDestination(weak_ptr<Port> destination, double speed);
     void stop();
 
     void setStatus(Status status);
 
     const Point &getEndPosition() const;
+
+    virtual string getClassName() const =0;
 
     struct invalidSpeedException : exception{
         const char * what() const throw() override{

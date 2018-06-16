@@ -52,7 +52,8 @@ void Controller::run(ifstream &inputFile) {
                 case createSeacraft:
                     addSeacraft();
                     break;
-
+                case go:
+                    Model::getInstance().update();
                 default: {
                     if (!Model::getInstance().seacraftExists(input)){
                         cerr << "ERROR: Invalid query. try again:" << endl;

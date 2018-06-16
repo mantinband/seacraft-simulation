@@ -28,3 +28,7 @@ string PatrolBoat::getStatusDetails() const {
 string PatrolBoat::getClassName() const {
     return "PatrolBoat";
 }
+
+void PatrolBoat::update() {
+
+}

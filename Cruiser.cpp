@@ -40,3 +40,7 @@ bool Cruiser::seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft) {
     return distanceSquared <= square(attackRadius);
 }
 
+void Cruiser::update() {
+
+}
+

@@ -40,9 +40,11 @@ public:
     void refuelCraft(const string &seacraftName);
     void stopSeacraft(const string &seacraftName);
     void attackSeacraft(const string &pirateShipName, const string &seacraftName);
+    void update();
+
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
-            return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of containers)";
+            return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of maxContainers)";
         }
     };
 
