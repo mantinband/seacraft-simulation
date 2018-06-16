@@ -10,7 +10,6 @@
 #include <memory>
 #include "SeaObject.h"
 #include "Seacraft.h"
-using namespace std;
 
 class Port : public SeaObject {
 public:
@@ -21,8 +20,8 @@ public:
     void update() override;
 
 private:
-    double hourlyFuelProduction;
     queue<weak_ptr<Seacraft>> refuelQueue;
+    double hourlyFuelProduction;
 };
 
 

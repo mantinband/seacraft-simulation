@@ -82,11 +82,7 @@ crafts Model::getSeacraftType(string s) {
 }
 
 void Model::addPort(string portName, Point portLocation, double initialFuel, double hourlyFuelProduction) {
-    try {
-        ports.push_back(make_shared<Port>(portName, portLocation, initialFuel, hourlyFuelProduction));
-    } catch (exception &e){
-        throw e;
-    }
+    ports.push_back(make_shared<Port>(portName, portLocation, initialFuel, hourlyFuelProduction));
 }
 
 void Model::setCourse(string seacraftName, double degree, double speed) {

@@ -5,11 +5,11 @@
 #include "Port.h"
 #include "Freighter.h"
 
-Port::Port(string name, Point point, double initialFuel, double hourlyFuelProduction) : SeaObject(std::move(name), point) {
+Port::Port(string name, Point point, double initialFuel, double hourlyFuelProduction)
+        : SeaObject(std::move(name), point) {
     if (hourlyFuelProduction < 0){
         throw invalidFuelException();
     }
-
     this->hourlyFuelProduction = hourlyFuelProduction;
     setFuel(initialFuel);
 }
@@ -26,7 +26,6 @@ string Port::getStatusDetails() const {
 void Port::addToRefuelQueue(const shared_ptr<Seacraft> &toAdd) {
     refuelQueue.push(toAdd);
     cout << toAdd->getName() << " added to queue" << endl;
-
 }
 
 /*  fuel amount += hourly fuel production
