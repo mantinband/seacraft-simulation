@@ -4,10 +4,10 @@
 
 #include "SeaObject.h"
 
-SeaObject::SeaObject(string name, const Point &point) : name(move(name)), point(point) {}
+SeaObject::SeaObject(string name, const Point &point) : name(move(name)), location(point) {}
 
-const Point &SeaObject::getPoint() const {
-    return point;
+const Point &SeaObject::getLocation() const {
+    return location;
 }
 
 string SeaObject::getName() const {
@@ -16,7 +16,7 @@ string SeaObject::getName() const {
 
 string SeaObject::getPointString() const {
     stringstream ss;
-    ss << "(" << fixed << setprecision(2) << point.x << ", " << fixed << setprecision(2) << point.y << ")";
+    ss << "(" << fixed << setprecision(2) << location.x << ", " << fixed << setprecision(2) << location.y << ")";
     return ss.str();
 }
 
@@ -32,13 +32,18 @@ void SeaObject::setFuel(double fuel) {
 }
 
 bool SeaObject::isIn(const Point &p, double scale) const {
-    bool inArea = getPoint().x > p.x-scale && getPoint().x < p.x+scale && getPoint().y > p.y-scale && getPoint().y < p.y+scale;
-    bool onXRightBorder = getPoint().x == p.x+scale && getPoint().y >= p.y-scale && getPoint().y < p.y+scale;
-    bool onYBottomBorder = getPoint().y == p.y-scale && getPoint().x > p.x-scale && getPoint().x <= p.x+scale;
+    bool inArea = getLocation().x > p.x-scale && getLocation().x < p.x+scale && getLocation().y > p.y-scale &&
+            getLocation().y < p.y+scale;
+    bool onXRightBorder = getLocation().x == p.x+scale && getLocation().y >= p.y-scale && getLocation().y < p.y+scale;
+    bool onYBottomBorder = getLocation().y == p.y-scale && getLocation().x > p.x-scale && getLocation().x <= p.x+scale;
 
     return inArea || onXRightBorder || onYBottomBorder;
 }
 
 string SeaObject::getInitials() const {
     return getName().substr(0,2);
+}
+
+void SeaObject::setLocation(const Point &location) {
+    SeaObject::location = location;
 }

@@ -166,7 +166,7 @@ void Model::addLoadDestination(const string &seacraftName, const string &portDes
     f.setLoadAt(port);
 }
 
-void Model::addUnloadDestination(const string &seacraftName, const string &portDestination) {
+void Model::addUnloadDestination(string seacraftName, string portDestination, int numOfContainersToUnload) {
     weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
 
     if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
@@ -183,7 +183,7 @@ void Model::addUnloadDestination(const string &seacraftName, const string &portD
     }
 
     Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
-    f.setUnloadAt(port);
+    f.setUnloadAt(port, numOfContainersToUnload);
 }
 
 void Model::setDockingPort(const string &seacraftName, const string &portDestination) {
@@ -253,6 +253,8 @@ void Model::attackSeacraft(const string &pirateShipName,const string &seacraftNa
 }
 
 void Model::update() {
+    time++;
+
     for (const auto &port : ports){
         port->update();
     }

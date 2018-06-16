@@ -24,7 +24,7 @@ typedef struct Point {
 struct Polar_vector;
 
 typedef struct Cartesian_vector {
-	Cartesian_vector(const struct Polar_vector & pv);
+    explicit Cartesian_vector(const struct Polar_vector & pv);
 	Cartesian_vector();
 	void operator=(const struct Polar_vector & pv);
 	double delta_x;
@@ -33,7 +33,7 @@ typedef struct Cartesian_vector {
 
 
 typedef struct Polar_vector {
-	Polar_vector(const Cartesian_vector & cv);
+    explicit Polar_vector(const Cartesian_vector & cv);
 	Polar_vector();
 	void operator=(const Cartesian_vector & cv);
 	double r;

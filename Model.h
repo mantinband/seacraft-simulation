@@ -35,7 +35,7 @@ public:
     void setDestination(const string &seacraftName,const string &portName, double speed);
     bool seacraftExists(const string &seacraftName) const;
     void addLoadDestination(const string &seacraftName,const string &portDestination);
-    void addUnloadDestination(const string &seacraftName,const string &portDestination);
+    void addUnloadDestination(string seacraftName, string portDestination, int numOfContainersToUnload);
     void setDockingPort(const string &seacraftName,const string &portDestination);
     void refuelCraft(const string &seacraftName);
     void stopSeacraft(const string &seacraftName);

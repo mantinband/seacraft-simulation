@@ -29,6 +29,12 @@ private:
     float attackRadius;
     weak_ptr<Seacraft> toAttack;
 public:
+    double getMaxSpeed() const override;
+
+public:
+    bool isValidSpeed(double speed) const override;
+
+public:
     void update() override;
 
 private:

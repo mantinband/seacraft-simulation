@@ -23,7 +23,7 @@ enum queries {
     showMap,
 
     showStatus,
-    incrementTime,
+    go,
     createSeacraft,
 
     course,
@@ -36,7 +36,6 @@ enum queries {
     refuelSeacraft,
     stopSeacraft,
 
-    go,
     quit,
     invalidQuery
 };

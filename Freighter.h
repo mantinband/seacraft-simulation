@@ -10,7 +10,7 @@
 
 class Freighter : public Seacraft{
 public:
-    static const int FUEL_TANK_SIZE = 500;
+    static const int FUEL_TANK_SIZE = 500000;
     static const int FUEL_CONSUMPTION = 1000;
     static const int MAX_SPEED = 40;
 
@@ -20,10 +20,15 @@ public:
 
     string getClassName() const override;
 
-    void setUnloadAt(weak_ptr<Port> unloadAt);
+    void setUnloadAt(weak_ptr<Port> unloadAt, int numOfContainersToUnload);
     void setLoadAt(weak_ptr<Port> loadAt);
     void setDockingPort(weak_ptr<Port> dockAt);
     void refuel();
+
+    bool isValidSpeed(double speed) const override;
+
+    double getMaxSpeed() const override;
+
     struct invalidLoadingPortException : exception {
         const char * what() const throw() override {
             return "ERROR: Invalid loading port";
@@ -42,17 +47,36 @@ public:
         }
     };
 
+    struct notEnoughFuelForUpdateException : exception {
+        const char * what() const throw() override {
+            return "ERROR: not enough fuel for desired update";
+        }
+    };
 
+    struct notEnoughContainersToUnloadException : exception {
+        const char * what() const throw() override {
+            return "ERROR: not enough containers to unload as desired";
+        }
+    };
+
+
+    void update() override;
 private:
     int maxContainers;
     int numContainers;
-public:
-    void update() override;
 
-private:
     weak_ptr<Port> loadAt;
     weak_ptr<Port> dockAt;
     weak_ptr<Port> unloadAt;
+
+    bool portIsInReach();
+    bool positionIsInReach();
+
+    bool enoughFuelForUpdate(double distance);
+
+    double getDistance(const Point &point);
+
+    int numContainersToUnload;
 };
 
 

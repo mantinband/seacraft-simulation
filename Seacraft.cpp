@@ -6,14 +6,15 @@
 #include "Port.h"
 
 #include <utility>
+#include <cmath>
 
 Seacraft::Seacraft(string name, Point p, int strength)
 : SeaObject(std::move(name),p),strength(strength)
-        ,status(stopped),destination(weak_ptr<Port>()),courseVector(nullptr){
+        ,status(stopped),destinationPort(weak_ptr<Port>()),courseVector(nullptr){
 }
 
 string Seacraft::toString() const {
-    return getName() + " (" + to_string(getPoint().x) + "," + to_string(getPoint().y) + ")" + " strength: " + to_string(strength);
+    return getName() + " (" + to_string(getLocation().x) + "," + to_string(getLocation().y) + ")" + " strength: " + to_string(strength);
 }
 
 
@@ -36,8 +37,8 @@ void Seacraft::setPosition(Point point, double speed) {
     this->speed = speed;
     endPosition = make_shared<Point>(point.x,point.y);
     courseVector = make_shared<Cartesian_vector>();
-    courseVector->delta_x = point.x-getPoint().x;
-    courseVector->delta_y = point.y-getPoint().y;
+    courseVector->delta_x = point.x- getLocation().x;
+    courseVector->delta_y = point.y- getLocation().y;
 
     courseDegree = to_degrees(Polar_vector(*courseVector).theta);
     status = movingToPosition;
@@ -52,7 +53,7 @@ double Seacraft::getSpeed() const {
 }
 
 weak_ptr<Port> Seacraft::getDestination() const {
-    return destination;
+    return destinationPort;
 }
 
 const shared_ptr<Cartesian_vector> &Seacraft::getCourseVector() const {
@@ -62,11 +63,11 @@ const shared_ptr<Cartesian_vector> &Seacraft::getCourseVector() const {
 
 void Seacraft::setDestination(weak_ptr<Port> destination, double speed) {
     this->speed = speed;
-    this->destination = destination;
+    this->destinationPort = destination;
 
     courseVector = make_shared<Cartesian_vector>();
-    courseVector->delta_x = destination.lock()->getPoint().x-getPoint().x;
-    courseVector->delta_y = destination.lock()->getPoint().y-getPoint().y;
+    courseVector->delta_x = destination.lock()->getLocation().x- getLocation().x;
+    courseVector->delta_y = destination.lock()->getLocation().y- getLocation().y;
     courseDegree = to_degrees(Polar_vector(*courseVector).theta);
 
     status = movingToPort;
@@ -89,6 +90,32 @@ void Seacraft::stop() {
     speed = 0;
     endPosition = nullptr;
     courseVector = nullptr;
-    destination = weak_ptr<Port>();
+    destinationPort = weak_ptr<Port>();
+}
+
+void Seacraft::setSpeed(double speed) {
+    if (!isValidSpeed(speed)){
+        throw invalidSpeedException();
+    }
+    Seacraft::speed = speed;
+}
+
+void Seacraft::setDestinationPort(const weak_ptr<Port> &destinationPort) {
+    Seacraft::destinationPort = destinationPort;
+}
+
+void Seacraft::setEndPosition(const shared_ptr<Point> &endPosition) {
+    Seacraft::endPosition = endPosition;
+}
+
+void Seacraft::setCourseVector(const shared_ptr<Cartesian_vector> &courseVector) {
+    Seacraft::courseVector = courseVector;
+}
+
+void Seacraft::moveOnCourse(double distance) {
+    Point newLocation;
+    newLocation.x = getLocation().x+distance*cos(to_radians(getCourseDegree()));
+    newLocation.y = getLocation().y+distance*sin(to_radians(getCourseDegree()));
+    setLocation(newLocation);
 }
 

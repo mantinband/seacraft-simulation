@@ -34,13 +34,21 @@ void Cruiser::attack(weak_ptr<Seacraft> seacraft) {
 }
 
 bool Cruiser::seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft) {
-    double distanceSquared = square(seacraft.lock()->getPoint().x-getPoint().x)
-                        + square(seacraft.lock()->getPoint().y-getPoint().y);
+    double distanceSquared = square(seacraft.lock()->getLocation().x- getLocation().x)
+                        + square(seacraft.lock()->getLocation().y- getLocation().y);
 
     return distanceSquared <= square(attackRadius);
 }
 
 void Cruiser::update() {
 
+}
+
+bool Cruiser::isValidSpeed(double speed) const {
+    return speed >=0 && speed <= MAX_SPEED;
+}
+
+double Cruiser::getMaxSpeed() const {
+    return MAX_SPEED;
 }
 

@@ -17,13 +17,15 @@ public:
     string getPointString() const;
     SeaObject(string name, const Point &point);
     virtual string getStatusDetails() const=0;
-    const Point &getPoint() const;
+    const Point &getLocation() const;
     double getFuel() const;
     void setFuel(double fuel);
     bool isIn(const Point &p, double scale) const;
     string getInitials() const;
 
     virtual void update()=0;
+
+    void setLocation(const Point &location);
 
     struct invalidFuelException : exception {
         const char *what() const throw() override{
@@ -33,7 +35,7 @@ public:
 
 private:
     string name;
-    Point point;
+    Point location;
     double fuel;
 };
 

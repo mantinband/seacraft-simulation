@@ -2,9 +2,9 @@
 // Created by amichai on 11/06/18.
 //
 
+#include <cmath>
 #include "Freighter.h"
 #include "Port.h"
-#include "Model.h"
 
 Freighter::Freighter(const string &name, Point p, int strength, int containers)
         : Seacraft(name, p, strength) ,maxContainers(containers),numContainers(0){
@@ -16,7 +16,7 @@ Freighter::Freighter(const string &name, Point p, int strength, int containers)
 string Freighter::getStatusDetails() const {
     stringstream ss;
     ss << "Freighter " << getName() << " at " << getPointString()
-            << ", fuel: " << fixed << setprecision(2) << getFuel()
+            << ", fuel: " << fixed << setprecision(2) << getFuel()/1000
             << " kl, resistance: " << getStrength();
 
     if (getStatus() != stopped && getStatus() != dockedAt && getStatus() != deadInTheWater){
@@ -65,11 +65,12 @@ void Freighter::setLoadAt(weak_ptr<Port> loadAt) {
     this->loadAt = loadAt;
 }
 
-void Freighter::setUnloadAt(weak_ptr<Port> unloadAt) {
+void Freighter::setUnloadAt(weak_ptr<Port> unloadAt, int numOfContainersToUnload) {
     if (loadAt.lock() != weak_ptr<Port>().lock() && loadAt.lock()->getName() == unloadAt.lock()->getName()){
         throw invalidUnloadingPortException();
     }
-    this->loadAt = unloadAt;
+    this->unloadAt = unloadAt;
+    this->numContainersToUnload = numOfContainersToUnload;
 }
 
 void Freighter::setDockingPort(weak_ptr<Port> dockAt) {
@@ -86,5 +87,108 @@ void Freighter::refuel() {
 }
 
 void Freighter::update() {
+    try {
+        switch (getStatus()) {
+            case movingToPosition:
+                if (positionIsInReach()) {
+                    setFuel(getFuel()-getDistance(getEndPosition())*FUEL_CONSUMPTION);
+                    setLocation(getEndPosition());
+                    setSpeed(0);
+                    setEndPosition(nullptr);
+                    setCourseVector(nullptr);
+                } else {
+                    setFuel(getFuel()-getSpeed()*FUEL_CONSUMPTION);
+                    moveOnCourse(getSpeed());
+                }
+                break;
+            case movingToPort:
+                if (portIsInReach()) {
+                    setFuel(getFuel()-getDistance(getDestination().lock()->getLocation())*FUEL_CONSUMPTION);
+                    setLocation(getDestination().lock()->getLocation());
+                    setSpeed(0);
+                    setEndPosition(nullptr);
+                    setCourseVector(nullptr);
+                    setStatus(dockedAt);
+                } else {
+                    setFuel(getFuel()-getSpeed()*FUEL_CONSUMPTION);
+                    moveOnCourse(getSpeed());
+                }
+                break;
+            case movingOnCourse:
+                if (!enoughFuelForUpdate(getSpeed())){
+                    throw notEnoughFuelForUpdateException();
+                }
+                moveOnCourse(getSpeed());
+                break;
+            case dockedAt:
+                if (loadAt.lock() == getDestination().lock()){
+                    numContainers = maxContainers;
+                } else if (unloadAt.lock() == getDestination().lock()){
+                    numContainers -= numContainersToUnload;
+                    if (numContainers < 0){
+                        throw notEnoughContainersToUnloadException();
+                    }
+                }
+                break;
+            case stopped:
+                return;
+            case deadInTheWater:
+                return;
+        }
+    } catch (notEnoughFuelForUpdateException &e){
+        cerr << e.what() << endl;
+        setStatus(deadInTheWater);
+        moveOnCourse(getFuel()/FUEL_CONSUMPTION);   /* continue until out of fuel   */
+        setFuel(0);
+        cerr << "status of " << getName() << " is now dead in the water" << endl;
+    } catch (notEnoughContainersToUnloadException &e){
+        cerr << e.what() << endl;
+        numContainers = 0;
+    }
+}
 
+bool Freighter::portIsInReach() {
+    double distance = getDistance(getDestination().lock()->getLocation());
+
+    /*  check if there is enough fuel.
+     *  send distance to port or total distance in update,
+     *  which ever is smaller   */
+    if (!enoughFuelForUpdate(distance > getSpeed() ? getSpeed() : distance)){
+        throw notEnoughFuelForUpdateException();
+    }
+    return distance-getSpeed() < 0.1;
+}
+
+bool Freighter::positionIsInReach() {
+    double distance = getDistance(getEndPosition());
+
+    /*  check if there is enough fuel.
+     *  send distance to destination point or total distance in update,
+     *  which ever is smaller   */
+    if (!enoughFuelForUpdate(distance > getSpeed() ? getSpeed() : distance)){
+        throw notEnoughFuelForUpdateException();
+    }
+
+    return distance <= getSpeed();
+}
+
+bool Freighter::isValidSpeed(double speed) const {
+    return speed >= 0 && speed <= MAX_SPEED;
+}
+
+double Freighter::getMaxSpeed() const {
+    return MAX_SPEED;
+}
+
+bool Freighter::enoughFuelForUpdate(double distance) {
+    /*  e.x. speed: 40nm/hr. fuel consumption: 100 per nm. needed fuel: 40*100*/
+    double neededFuel = FUEL_CONSUMPTION*getSpeed();
+
+    return getFuel() >= neededFuel;
+}
+
+double Freighter::getDistance(const Point &point) {
+    double distance = square(getLocation().x-point.x) + square(getLocation().y-point.y);
+    distance = sqrt(distance);
+    return distance;
 }

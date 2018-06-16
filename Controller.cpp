@@ -47,13 +47,12 @@ void Controller::run(ifstream &inputFile) {
                 case showStatus:
                     cout << Model::getInstance().getStatus();
                     break;
-                case incrementTime:
-                    break;
                 case createSeacraft:
                     addSeacraft();
                     break;
                 case go:
                     Model::getInstance().update();
+                    break;
                 default: {
                     if (!Model::getInstance().seacraftExists(input)){
                         cerr << "ERROR: Invalid query. try again:" << endl;
@@ -86,7 +85,7 @@ queries Controller::getQuery(string s) {
     if (s == "show") return showMap;
 
     if (s == "status") return showStatus;
-    if (s == "go") return incrementTime;
+    if (s == "go") return go;
     if (s == "create") return createSeacraft;
 
     if (s == "course") return course;
@@ -224,9 +223,11 @@ void Controller::seacraftOptions(string seacraftName) {
         } break;
         case unload_at: {
             string portDestination;
+            int numOfContainersToUnload;
 
-            cin >> portDestination;
-            Model::getInstance().addUnloadDestination(seacraftName, portDestination);
+            cin >> portDestination >> numOfContainersToUnload;
+
+            Model::getInstance().addUnloadDestination(seacraftName, portDestination, numOfContainersToUnload);
         } break;
         case dock_at: {
             string portDestination;

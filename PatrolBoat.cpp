@@ -14,7 +14,7 @@ string PatrolBoat::getStatusDetails() const {
     stringstream ss;
     ss << "Patrol_boat " << getName() << " at " << getPointString()
        << ", fuel: " << fixed << setprecision(2)
-       << getFuel() << " resistance: " << getStrength();
+       << getFuel()/1000 << " resistance: " << getStrength();
 
 
     if (getDestination().lock() != weak_ptr<Port>().lock()){
@@ -22,7 +22,7 @@ string PatrolBoat::getStatusDetails() const {
                            << " on course " << fixed << setprecision(2) << getCourseDegree()
                            << " deg, speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
     }
-    return ss.str(); //TODO: add destination etc'
+    return ss.str(); //TODO: add destinationPort etc'
 }
 
 string PatrolBoat::getClassName() const {
@@ -31,4 +31,12 @@ string PatrolBoat::getClassName() const {
 
 void PatrolBoat::update() {
 
+}
+
+bool PatrolBoat::isValidSpeed(double speed) const {
+    return speed >= 0 && speed <= MAX_SPEED;
+}
+
+double PatrolBoat::getMaxSpeed() const {
+    return MAX_SPEED;
 }

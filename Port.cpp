@@ -29,6 +29,8 @@ void Port::addToRefuelQueue(const shared_ptr<Seacraft> &toAdd) {
 
 }
 
+/*  fuel amount += hourly fuel production
+ *  refuel seacraft if queue is not empty   */
 void Port::update() {
     setFuel(getFuel()+hourlyFuelProduction);
 
