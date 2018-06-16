@@ -20,7 +20,7 @@ string PatrolBoat::getStatusDetails() const {
     if (getDestination().lock() != weak_ptr<Port>().lock()){
         ss << ", Moving to " << getDestination().lock()->getName()
                            << " on course " << fixed << setprecision(2) << getCourseDegree()
-                           << " speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
+                           << " deg, speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
     }
     return ss.str(); //TODO: add destination etc'
 }

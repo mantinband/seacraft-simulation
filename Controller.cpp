@@ -239,6 +239,7 @@ void Controller::seacraftOptions(const string &seacraftName) {
             Model::getInstance().refuelCraft(seacraftName);
             break;
         case stopSeacraft:
+            Model::getInstance().stopSeacraft(seacraftName);
             break;
         default:
             cerr << "ERROR: Invalid query. try again:" << endl;

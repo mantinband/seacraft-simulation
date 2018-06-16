@@ -15,6 +15,7 @@ public:
 
     Cruiser(const string &craftName, Point point, int strength, float attackRadius=DEFAULT_ATTACK_RADIUS);
 
+
     string getClassName() const override;
 
     string getStatusDetails() const override;

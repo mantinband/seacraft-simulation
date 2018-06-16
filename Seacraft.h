@@ -42,13 +42,17 @@ public:
     virtual string getClassName() const =0;
 
     void setDestination(weak_ptr<Port> destination, double speed);
+    void stop();
+
+    void setStatus(Status status);
+
+    const Point &getEndPosition() const;
 
     struct invalidSpeedException : exception{
         const char * what() const throw() override{
             return "ERROR: Invalid speed";
         }
     };
-
     struct unexpectedStateException : exception{
         const char * what() const throw() override {
             return "ERROR: Unexpected state";
@@ -59,11 +63,9 @@ private:
     double speed;
     double courseDegree;
     Status status;
-    Point endPosition;
+    shared_ptr<Point> endPosition;
     weak_ptr<Port> destination;
     shared_ptr<Cartesian_vector> courseVector;
-public:
-    const Point &getEndPosition() const;
 
 };
 

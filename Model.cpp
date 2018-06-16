@@ -219,3 +219,13 @@ void Model::refuelCraft(const string &seacraftName) {
 
     dynamic_cast<Freighter*>(&*seacraft.lock())->refuel();
 }
+
+void Model::stopSeacraft(const string &seacraftName) {
+    weak_ptr<Seacraft> seacraft = getSeacraft(seacraftName);
+
+    if (seacraft.lock() == weak_ptr<Seacraft>().lock()){
+        throw noSuchSeacraftException();
+    }
+
+    seacraft.lock()->stop();
+}

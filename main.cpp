@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
 
     if (argc < 2){
         cerr << "Invalid initialization. [expected: ./executionName portFile]" << endl;
+        exit(1);
     }
 
     ifs.open(argv[1],ios_base::in);
@@ -18,6 +19,7 @@ int main(int argc, char **argv) {
         controller.run(ifs);
     } catch (exception &e){
         cerr << e.what() << endl;
+        exit(2);
     }
 
     return 0;

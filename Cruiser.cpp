@@ -25,3 +25,4 @@ Cruiser::Cruiser(const string &craftName, Point point, int strength, float attac
 string Cruiser::getClassName() const {
     return "Cruiser";
 }
+

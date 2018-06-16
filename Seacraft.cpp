@@ -8,7 +8,8 @@
 #include <utility>
 
 Seacraft::Seacraft(string name, Point p, int strength)
-: SeaObject(std::move(name),p),strength(strength),status(stopped){
+: SeaObject(std::move(name),p),strength(strength)
+        ,status(stopped),destination(weak_ptr<Port>()),courseVector(nullptr){
 }
 
 string Seacraft::toString() const {
@@ -33,7 +34,7 @@ void Seacraft::setCourse(double degree, double speed) {
 
 void Seacraft::setPosition(Point point, double speed) {
     this->speed = speed;
-    endPosition = point;
+    endPosition = make_shared<Point>(point.x,point.y);
     courseVector = make_shared<Cartesian_vector>();
     courseVector->delta_x = point.x-getPoint().x;
     courseVector->delta_y = point.y-getPoint().y;
@@ -76,5 +77,18 @@ Status Seacraft::getStatus() const {
 }
 
 const Point &Seacraft::getEndPosition() const {
-    return endPosition;
+    return *endPosition;
 }
+
+void Seacraft::setStatus(Status status) {
+    Seacraft::status = status;
+}
+
+void Seacraft::stop() {
+    status = stopped;
+    speed = 0;
+    endPosition = nullptr;
+    courseVector = nullptr;
+    destination = weak_ptr<Port>();
+}
+

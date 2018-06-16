@@ -38,6 +38,8 @@ public:
     void addUnloadDestination(const string &seacraftName,const string &portDestination);
     void setDockingPort(const string &seacraftName,const string &portDestination);
     void refuelCraft(const string &seacraftName);
+    void stopSeacraft(const string &seacraftName);
+
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
             return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of containers)";

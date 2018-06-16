@@ -17,6 +17,7 @@ public:
     Freighter(const string &name, Point p, int strength, int containers=0);
 
     string getStatusDetails() const override;
+
     string getClassName() const override;
 
     void setUnloadAt(weak_ptr<Port> unloadAt);

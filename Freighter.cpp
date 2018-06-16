@@ -32,7 +32,7 @@ string Freighter::getStatusDetails() const {
                 throw unexpectedStateException();
         }
         ss << " on course " << fixed << setprecision(2) << getCourseDegree()
-                            << " speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
+                            << " deg, speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
     } else if (getStatus() == dockedAt){
         ss << " docked at: " << getDestination().lock()->getName();
     }
