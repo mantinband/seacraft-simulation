@@ -78,12 +78,12 @@ void Freighter::setDockingPort(weak_ptr<Port> dockAt) {
     this->dockAt = dockAt;
 }
 
-void Freighter::refuel() {
+void Freighter::refuel(weak_ptr<Seacraft> s) {
     if (getStatus() != dockedAt){
         throw invalidRefuelRequestException();
     }
 
-    currentlyAt.lock()->addToRefuelQueue(shared_ptr<Seacraft>(this));
+    currentlyAt.lock()->addToRefuelQueue(shared_ptr<Seacraft>(s));
 
 }
 

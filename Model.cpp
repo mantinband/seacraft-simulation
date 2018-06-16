@@ -213,7 +213,7 @@ void Model::refuelCraft(const string &seacraftName) {
         throw invalidCraftException();
     }
 
-    dynamic_cast<Freighter*>(&*seacraft.lock())->refuel();
+    dynamic_cast<Freighter *>(&*seacraft.lock())->refuel(seacraft);
 }
 
 void Model::stopSeacraft(const string &seacraftName) {

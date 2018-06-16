@@ -20,7 +20,7 @@ public:
     void update() override;
 
 private:
-    queue<shared_ptr<Seacraft>> refuelQueue;
+    queue<weak_ptr<Seacraft>> refuelQueue;
     double hourlyFuelProduction;
 };
 

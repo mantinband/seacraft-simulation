@@ -23,7 +23,7 @@ public:
     void setUnloadAt(weak_ptr<Port> unloadAt, int numOfContainersToUnload);
     void setLoadAt(weak_ptr<Port> loadAt);
     void setDockingPort(weak_ptr<Port> dockAt);
-    void refuel();
+    void refuel(weak_ptr<Seacraft> ptr);
 
     bool isValidSpeed(double speed) const override;
 
