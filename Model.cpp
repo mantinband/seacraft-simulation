@@ -2,7 +2,6 @@
 // Created by amichai on 11/06/18.
 //
 
-#include <iostream> //for debugging. TODO: delete before giving in
 #include <limits>
 #include "Model.h"
 

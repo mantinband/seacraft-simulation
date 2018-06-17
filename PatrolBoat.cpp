@@ -23,7 +23,7 @@ string PatrolBoat::getStatusDetails() const {
                            << " on course " << fixed << setprecision(2) << toSeaDegree(getCourseDegree())
                            << " deg, speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
     }
-    return ss.str(); //TODO: add destinationPort etc'
+    return ss.str();
 }
 
 string PatrolBoat::getClassName() const {

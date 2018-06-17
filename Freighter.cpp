@@ -120,7 +120,7 @@ void Freighter::update() {
                 }
                 break;
             case movingOnCourse:
-                if (!enoughFuelForUpdate(getSpeed())){
+                if (!enoughFuelForUpdate()){
                     throw notEnoughFuelForUpdateException();
                 }
                 moveOnCourse(getSpeed());

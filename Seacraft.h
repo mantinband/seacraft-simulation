@@ -24,7 +24,6 @@ enum Status{
 class Seacraft : public SeaObject {
 public:
     Seacraft(string name, Point p, int strength);
-    string toString() const ; //just for debug TODO: delete before giving in
 
 
     void moveOnCourse(double distance);
@@ -32,7 +31,7 @@ public:
     Status getStatus() const;
     double getSpeed() const;
     weak_ptr<Port> getDestination() const;
-    const shared_ptr<Cartesian_vector> &getCourseVector() const;
+
     double getCourseDegree() const;
     const Point &getEndPosition() const;
 
@@ -78,7 +77,7 @@ public:
 
     bool portIsInReach();
     bool positionIsInReach();
-    bool enoughFuelForUpdate(double distance);
+    bool enoughFuelForUpdate();
 private:
     int strength;
     double speed;

@@ -12,12 +12,6 @@ Seacraft::Seacraft(string name, Point p, int strength)
         ,status(stopped),destinationPort(weak_ptr<Port>()),courseVector(nullptr){
 }
 
-string Seacraft::toString() const {
-    return getName() + " (" + to_string(getLocation().x) + "," + to_string(getLocation().y) + ")" + " strength: " + to_string(strength);
-}
-
-
-
 int Seacraft::getStrength() const {
     return strength;
 }
@@ -53,10 +47,6 @@ double Seacraft::getSpeed() const {
 
 weak_ptr<Port> Seacraft::getDestination() const {
     return destinationPort;
-}
-
-const shared_ptr<Cartesian_vector> &Seacraft::getCourseVector() const {
-    return courseVector;
 }
 
 
@@ -124,7 +114,7 @@ bool Seacraft::portIsInReach() {
     /*  check if there is enough fuel.
      *  send distance to port or total distance in update,
      *  which ever is smaller   */
-    if (!enoughFuelForUpdate(distance > getSpeed() ? getSpeed() : distance)){
+    if (!enoughFuelForUpdate()){
         throw notEnoughFuelForUpdateException();
     }
     return distance-getSpeed() < 0.1;
@@ -136,14 +126,14 @@ bool Seacraft::positionIsInReach() {
     /*  check if there is enough fuel.
      *  send distance to destination point or total distance in update,
      *  which ever is smaller   */
-    if (!enoughFuelForUpdate(distance > getSpeed() ? getSpeed() : distance)){
+    if (!enoughFuelForUpdate()){
         throw notEnoughFuelForUpdateException();
     }
 
     return distance <= getSpeed();
 }
 
-bool Seacraft::enoughFuelForUpdate(double distance) {
+bool Seacraft::enoughFuelForUpdate() {
     /*  e.x. speed: 40nm/hr. fuel consumption: 100 per nm. needed fuel: 40*100*/
     double neededFuel = getFuelConsumption()*getSpeed();
 
