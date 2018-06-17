@@ -163,8 +163,8 @@ void Controller::createPorts(ifstream &inputFile) {
 
     string portName;
     string portLocationString;
-    double initialPortFuel;
     double hourlyFuelProduction;
+    double initialPortFuel;
     char c;
     Point portLocation;
     stringstream ss;

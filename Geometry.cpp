@@ -86,3 +86,19 @@ string Point::toString() const {
 double square(double d){
 	return d*d;
 }
+
+double opposite(const double &n){
+	return 360-n;
+}
+
+double toRegularDegree(const double &degree) {
+
+	return toSeaDegree(degree);
+}
+
+double toSeaDegree(const double &degree) {
+	double seaDegree = opposite(degree)+90;
+	return seaDegree >= 360 ? seaDegree-360 : seaDegree;
+}
+
+

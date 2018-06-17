@@ -23,7 +23,7 @@ public:
     void setUnloadAt(weak_ptr<Port> unloadAt, int numOfContainersToUnload);
     void setLoadAt(weak_ptr<Port> loadAt);
     void setDockingPort(weak_ptr<Port> dockAt);
-    void refuel(weak_ptr<Seacraft> ptr);
+    void refuel(weak_ptr<Seacraft> ptr) override;
 
     bool isValidSpeed(double speed) const override;
 
@@ -47,18 +47,13 @@ public:
         }
     };
 
-    struct notEnoughFuelForUpdateException : exception {
-        const char * what() const throw() override {
-            return "ERROR: not enough fuel for desired update";
-        }
-    };
-
     struct notEnoughContainersToUnloadException : exception {
         const char * what() const throw() override {
             return "ERROR: not enough containers to unload as desired";
         }
     };
 
+    double getFuelConsumption() const override;
 
     void update() override;
 private:
@@ -77,13 +72,6 @@ public:
     void setDestination(weak_ptr<Port> destination, double speed) override;
 
 private:
-    bool portIsInReach();
-    bool positionIsInReach();
-
-    bool enoughFuelForUpdate(double distance);
-
-    double getDistance(const Point &point);
-
     int numContainersToUnload;
 };
 

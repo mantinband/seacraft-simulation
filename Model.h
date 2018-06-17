@@ -41,7 +41,7 @@ public:
     void stopSeacraft(const string &seacraftName);
     void attackSeacraft(const string &pirateShipName, const string &seacraftName);
     void update();
-
+    weak_ptr<Port> getClosestPort(const Point &point, set<string> visitedPorts) const ;
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
             return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of maxContainers)";
@@ -73,7 +73,7 @@ private:
 
     weak_ptr<Port> getPort(const string &portName);
 
-    weak_ptr<Seacraft> getSeacraft(const string &seacraftName) const;
+    weak_ptr<Seacraft> getSeacraft(const string &theName) const;
 };
 
 

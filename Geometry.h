@@ -41,5 +41,7 @@ typedef struct Polar_vector {
 } Polar_vector;
 
 double square(double d);
+double toSeaDegree(const double &degree);
+double toRegularDegree(const double &degree);
 
 #endif

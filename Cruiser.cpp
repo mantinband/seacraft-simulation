@@ -7,11 +7,11 @@
 
 string Cruiser::getStatusDetails() const {
     stringstream ss;
-    ss << "Cruiser " << getName() << " at position "
+    ss << "Cruiser " << getName() << " at "
        << getPointString() << ", force: " << getStrength();
 
     if (getStatus() != stopped){
-        ss << ", Moving on course " << fixed << setprecision(2) << getCourseDegree()
+        ss << ", Moving on course " << fixed << setprecision(2) << toSeaDegree(getCourseDegree())
            << " deg, speed " << fixed << setprecision(2) << getSpeed() << " nm/hr";
     }
     return ss.str();
@@ -41,7 +41,7 @@ bool Cruiser::seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft) {
 }
 
 void Cruiser::update() {
-
+    moveOnCourse(getSpeed());
 }
 
 bool Cruiser::isValidSpeed(double speed) const {
@@ -50,5 +50,13 @@ bool Cruiser::isValidSpeed(double speed) const {
 
 double Cruiser::getMaxSpeed() const {
     return MAX_SPEED;
+}
+
+double Cruiser::getFuelConsumption() const {
+    throw fuelNotSupportedException();
+}
+
+void Cruiser::refuel(weak_ptr<Seacraft> ptr) {
+    throw fuelNotSupportedException();
 }
 

@@ -50,6 +50,8 @@ public:
     virtual string getClassName() const =0;
     virtual bool isValidSpeed(double speed) const =0;
     virtual double getMaxSpeed() const=0;
+    virtual double getFuelConsumption() const=0;
+    virtual void refuel(weak_ptr<Seacraft>) =0;
     struct invalidSpeedException : exception{
         const char * what() const throw() override{
             return "ERROR: Invalid speed";
@@ -63,6 +65,17 @@ public:
     };
 
 
+    struct notEnoughFuelForUpdateException : exception {
+        const char * what() const throw() override {
+            return "ERROR: not enough fuel for desired update";
+        }
+    };
+
+
+
+    bool portIsInReach();
+    bool positionIsInReach();
+    bool enoughFuelForUpdate(double distance);
 private:
     int strength;
     double speed;
@@ -70,6 +83,7 @@ private:
     Status status;
     shared_ptr<Point> endPosition;
     weak_ptr<Port> destinationPort;
+
     shared_ptr<Cartesian_vector> courseVector;
 };
 

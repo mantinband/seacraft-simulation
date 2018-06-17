@@ -3,6 +3,7 @@
 //
 
 #include <iostream> //for debugging. TODO: delete before giving in
+#include <limits>
 #include "Model.h"
 
 Model& Model::getInstance() {
@@ -120,9 +121,9 @@ void Model::setDestination(const string &seacraftName,const string &portName, do
     seacraft.lock()->setDestination(port, speed);
 
 }
-weak_ptr<Seacraft> Model::getSeacraft(const string &seacraftName) const {
+weak_ptr<Seacraft> Model::getSeacraft(const string &theName) const {
     for (const auto &seacraft : seacrafts){
-        if (seacraft->getName() == seacraftName){
+        if (seacraft->getName() == theName){
             return seacraft;
         }
     }
@@ -257,4 +258,19 @@ void Model::update() {
     for (const auto &seacraft : seacrafts){
         seacraft->update();
     }
+}
+
+weak_ptr<Port> Model::getClosestPort(const Point &point, set<string> visitedPorts) const {
+    double shortestDistance = numeric_limits<double>::max();
+    weak_ptr<Port> closestPort = weak_ptr<Port>();
+
+    for (const auto &port : ports){
+        if (visitedPorts.find(port->getName()) == visitedPorts.end()){
+            if (port->getDistance(point) < shortestDistance){
+                shortestDistance = port->getDistance(point);
+                closestPort = port;
+            }
+        }
+    }
+    return closestPort;
 }

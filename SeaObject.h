@@ -22,11 +22,10 @@ public:
     void setFuel(double fuel);
     bool isIn(const Point &p, double scale) const;
     string getInitials() const;
-
+    double getDistance(const Point &point);
     virtual void update()=0;
 
     void setLocation(const Point &location);
-
     struct invalidFuelException : exception {
         const char *what() const throw() override{
             return "ERROR: Invalid fuel amount";
@@ -37,6 +36,8 @@ private:
     string name;
     Point location;
     double fuel;
+
+
 };
 
 

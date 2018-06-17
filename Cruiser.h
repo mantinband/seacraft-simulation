@@ -19,25 +19,31 @@ public:
     string getClassName() const override;
 
     string getStatusDetails() const override;
+    double getFuelConsumption() const override;
+
+    void refuel(weak_ptr<Seacraft> ptr) override;
+
+    double getMaxSpeed() const override;
+
+    bool isValidSpeed(double speed) const override;
+
+    void update() override;
 
     struct seacraftNotInAttackRadiusException : exception {
         const char * what() const throw() override{
             return "ERROR: Seacraft not in attack radius";
         }
     };
+
+    struct fuelNotSupportedException : exception{
+        const char * what() const throw() override{
+            return "ERROR: Cruiser does not support fuel actions ";
+        }
+    };
 private:
     float attackRadius;
     weak_ptr<Seacraft> toAttack;
-public:
-    double getMaxSpeed() const override;
 
-public:
-    bool isValidSpeed(double speed) const override;
-
-public:
-    void update() override;
-
-private:
     bool seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft);
 };
 

@@ -2,6 +2,7 @@
 // Created by amichai on 13/06/18.
 //
 
+#include <cmath>
 #include "SeaObject.h"
 
 SeaObject::SeaObject(string name, const Point &point) : name(move(name)), location(point) {}
@@ -46,4 +47,11 @@ string SeaObject::getInitials() const {
 
 void SeaObject::setLocation(const Point &location) {
     SeaObject::location = location;
+}
+
+
+double SeaObject::getDistance(const Point &point) {
+    double distance = square(getLocation().x-point.x) + square(getLocation().y-point.y);
+    distance = sqrt(distance);
+    return distance;
 }

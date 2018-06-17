@@ -32,7 +32,7 @@ void Port::addToRefuelQueue(const shared_ptr<Seacraft> &toAdd) {
 void Port::update() {
 
     setFuel(getFuel()+hourlyFuelProduction);
-    /*  refuel craft that is waiting to be refueled*/
+    /*  check if there is a craft that is waiting to be refueled*/
     if (!refuelQueue.empty()){
         weak_ptr<Seacraft> toRefuel = refuelQueue.front();
 
@@ -49,4 +49,8 @@ void Port::update() {
         }
         refuelQueue.pop();
     }
+}
+
+unsigned long Port::getRefuelQueueLength() const {
+    return refuelQueue.size();
 }

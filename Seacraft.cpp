@@ -5,7 +5,6 @@
 #include "Seacraft.h"
 #include "Port.h"
 
-#include <utility>
 #include <cmath>
 
 Seacraft::Seacraft(string name, Point p, int strength)
@@ -27,7 +26,7 @@ void Seacraft::setCourse(double degree, double speed) {
     if (speed < 0){
         throw invalidSpeedException();
     }
-    courseDegree = degree;
+    courseDegree = toRegularDegree(degree);
     this->speed = speed;
     courseVector = nullptr;
     status = movingOnCourse;
@@ -117,5 +116,37 @@ void Seacraft::moveOnCourse(double distance) {
     newLocation.x = getLocation().x+distance*cos(to_radians(getCourseDegree()));
     newLocation.y = getLocation().y+distance*sin(to_radians(getCourseDegree()));
     setLocation(newLocation);
+}
+
+bool Seacraft::portIsInReach() {
+    double distance = getDistance(getDestination().lock()->getLocation());
+
+    /*  check if there is enough fuel.
+     *  send distance to port or total distance in update,
+     *  which ever is smaller   */
+    if (!enoughFuelForUpdate(distance > getSpeed() ? getSpeed() : distance)){
+        throw notEnoughFuelForUpdateException();
+    }
+    return distance-getSpeed() < 0.1;
+}
+
+bool Seacraft::positionIsInReach() {
+    double distance = getDistance(getEndPosition());
+
+    /*  check if there is enough fuel.
+     *  send distance to destination point or total distance in update,
+     *  which ever is smaller   */
+    if (!enoughFuelForUpdate(distance > getSpeed() ? getSpeed() : distance)){
+        throw notEnoughFuelForUpdateException();
+    }
+
+    return distance <= getSpeed();
+}
+
+bool Seacraft::enoughFuelForUpdate(double distance) {
+    /*  e.x. speed: 40nm/hr. fuel consumption: 100 per nm. needed fuel: 40*100*/
+    double neededFuel = getFuelConsumption()*getSpeed();
+
+    return getFuel() >= neededFuel;
 }
 

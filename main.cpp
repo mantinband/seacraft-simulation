@@ -1,12 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include "Controller.h"
-#include "View.h"
 
 int main(int argc, char **argv) {
     Controller controller;
     ifstream ifs;
-
 
     if (argc < 2){
         cerr << "Invalid initialization. [expected: ./executionName portFile]" << endl;
