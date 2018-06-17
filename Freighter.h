@@ -71,6 +71,8 @@ public:
 
     void setDestination(weak_ptr<Port> destination, double speed) override;
 
+    void setNumContainers(int numContainers);
+
 private:
     int numContainersToUnload;
 };

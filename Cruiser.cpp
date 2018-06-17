@@ -3,6 +3,8 @@
 //
 
 #include "Cruiser.h"
+#include "Freighter.h"
+#include "PatrolBoat.h"
 
 
 string Cruiser::getStatusDetails() const {
@@ -41,6 +43,27 @@ bool Cruiser::seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft) {
 }
 
 void Cruiser::update() {
+    if (toAttack.lock() != weak_ptr<Seacraft>().lock()){
+        if (getStrength() > toAttack.lock()->getStrength()){
+            setStrength(getStrength()+1);
+            if (toAttack.lock()->getClassName() == "Freighter"){
+                dynamic_cast<Freighter*>(&*toAttack.lock())->setNumContainers(0);
+            } else if (toAttack.lock()->getClassName() == "PatrolBoat"){
+                setStrength(getStrength()-1);
+            } else {
+                throw unexpectedStateException();
+            }
+            toAttack.lock()->setDestinationPort(weak_ptr<Port>());
+            toAttack.lock()->setSpeed(0);
+            toAttack.lock()->setStatus(stopped);
+        } else {
+            if (toAttack.lock()->getClassName() == "PatrolBoat"){
+                dynamic_cast<PatrolBoat*>(&*toAttack.lock())
+                        ->setStrength(dynamic_cast<PatrolBoat*>(&*toAttack.lock())->getStrength()+1);
+            }
+            setStrength(getStrength()-1);
+        }
+    }
     moveOnCourse(getSpeed());
 }
 

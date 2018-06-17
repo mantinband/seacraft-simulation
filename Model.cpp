@@ -228,7 +228,7 @@ void Model::stopSeacraft(const string &seacraftName) {
 }
 
 void Model::attackSeacraft(const string &pirateShipName,const string &seacraftName) {
-    weak_ptr<Seacraft> pirateCraft = getSeacraft(seacraftName);
+    weak_ptr<Seacraft> pirateCraft = getSeacraft(pirateShipName);
 
     if (pirateCraft.lock() == weak_ptr<Seacraft>().lock()){
         throw noSuchSeacraftException();

@@ -150,3 +150,7 @@ bool Seacraft::enoughFuelForUpdate(double distance) {
     return getFuel() >= neededFuel;
 }
 
+void Seacraft::setStrength(int strength) {
+    Seacraft::strength = strength;
+}
+

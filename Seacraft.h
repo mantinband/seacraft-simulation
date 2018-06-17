@@ -52,6 +52,9 @@ public:
     virtual double getMaxSpeed() const=0;
     virtual double getFuelConsumption() const=0;
     virtual void refuel(weak_ptr<Seacraft>) =0;
+
+    void setStrength(int strength);
+
     struct invalidSpeedException : exception{
         const char * what() const throw() override{
             return "ERROR: Invalid speed";

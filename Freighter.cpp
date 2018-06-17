@@ -183,3 +183,7 @@ void Freighter::setDestination(weak_ptr<Port> destination, double speed) {
 double Freighter::getFuelConsumption() const {
     return FUEL_CONSUMPTION;
 }
+
+void Freighter::setNumContainers(int numContainers) {
+    Freighter::numContainers = numContainers;
+}
