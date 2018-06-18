@@ -168,7 +168,7 @@ void Controller::createPorts(ifstream &inputFile) {
     Point portLocation;
     stringstream ss;
 
-    /*  create defualt port */
+    /*  create default port */
     ss << INITIAL_PORT;
 
     ss >> portName >> c >> portLocation.x >> c
