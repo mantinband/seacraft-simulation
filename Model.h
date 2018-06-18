@@ -19,29 +19,81 @@ enum crafts {
     patrol_boat,
     invalidCraft
 };
+/********************************************/
+/*  Class is the simulation's database.     */
+/*  it holds all sea objects and supports   */
+/*  queries and data manipulation.          */
+/*  it's design pattern is a singleton      */
+/*  and is publicly accessible              */
+/********************************************/
+
 class Model {
 public:
     Model();
+    /*  returns instance to model   */
     static Model & getInstance();
+
+    /*  returns current time    */
     int getTime() const;
+
+    /*  adds given craft to craft vector */
     void addCraft(const shared_ptr<Seacraft> &toAdd);
+
+    /*  returns initials of object in given area if found. empty string otherwise   */
     string getObjectInitialsAt(const Point &p, double scale) const;
+
+    /*  returns string with all sea objects statuses    */
     string getStatus() const;
+
+    /*  adds port to ports vector*/
     void addPort(string portName, Point portLocation, double initialFuel, double hourlyFuelProduction);
+
+    /*  FACTORY: receives as arguments ship information. and creates currect ship accordingly   */
     void addCraft(const string &craftName, const string &crafType, Point point, int strength, const string &extraInfo);
 
+    /*  sets given seacraft's destination to given angle at given speed    */
     void setCourse(string seacraftName, double degree, double speed);
+
+    /*  set given seacraft's destination to given point at given speed  */
     void setPosition(string seacraftName, Point point, double speed);
+
+    /*  sets given seacraft's destination to given port at given speed  */
     void setDestination(const string &seacraftName,const string &portName, double speed);
+
+    /*  returns true if given seacraft exists, false otherwise  */
     bool seacraftExists(const string &seacraftName) const;
+
+    /*  adds given port as loading port for given seacraft  */
     void addLoadDestination(const string &seacraftName,const string &portDestination);
+
+    /*  adds given port as unloading port for given seacraft and sets number of containers to unload   */
     void addUnloadDestination(string seacraftName, string portDestination, int numOfContainersToUnload);
+
+    /*  sets docking port for given seacraft    */
     void setDockingPort(const string &seacraftName,const string &portDestination);
+
+    /*  adds refuel request for given seacraft  */
     void refuelCraft(const string &seacraftName);
+
+    /*  stops seacrafts sail    */
     void stopSeacraft(const string &seacraftName);
+
+    /*  adds attack request to given pirate ship to given seacraft  */
     void attackSeacraft(const string &pirateShipName, const string &seacraftName);
+
+    /*  updates all seaobject   */
     void update();
+
+    /*  returns closest port to given point that isn't in visitedPorts set  */
     weak_ptr<Port> getClosestPort(const Point &point, set<string> visitedPorts) const ;
+
+    struct unexpectedStateException : exception{
+        const char * what() const throw() override {
+            return "ERROR: Unexpected state";
+        }
+    };
+
+
     struct invalidCraftFormat: exception {
         const char * what() const throw() override {
             return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of maxContainers)";
@@ -66,13 +118,18 @@ public:
         }
     };
 private:
+    /*  current simulation time */
     int time;
     vector<shared_ptr<Seacraft>> seacrafts;
     vector<shared_ptr<Port>> ports;
+
+    /*  returns enum representing given string token    */
     crafts getSeacraftType(string s);
 
+    /*  returns port by given name  */
     weak_ptr<Port> getPort(const string &portName);
 
+    /*  returns seacraft by given name  */
     weak_ptr<Seacraft> getSeacraft(const string &theName) const;
 };
 

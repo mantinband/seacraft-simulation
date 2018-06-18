@@ -5,14 +5,15 @@
 #include <limits>
 #include "Model.h"
 
+Model::Model() :time(0){
+}
+
 Model& Model::getInstance() {
+    /*  creates instance if instance wasn't created yet.
+     *  automatically destructed at end of program    */
     static Model instance;
 
     return instance;
-
-}
-
-Model::Model() :time(0){
 }
 
 int Model::getTime() const {
@@ -24,26 +25,31 @@ void Model::addCraft(const shared_ptr<Seacraft> &toAdd) {
 }
 
 string Model::getObjectInitialsAt(const Point &p, double scale) const {
+    /*  check if there is a seacraft in area    */
     for (const auto &seacraft : seacrafts){
         if (seacraft->isIn(p, scale/2)){
             return seacraft->getInitials();
         }
     }
+
+    /*  check if there is a port in area    */
     for (const auto &port : ports){
         if (port->isIn(p, scale/2)){
             return port->getInitials();
         }
     }
+    /*  return empty string if area is empty    */
     return "";
 }
 
 string Model::getStatus() const {
     string status;
 
+    /*  concatenate ports statuses */
     for (const auto &port : ports){
         status += port->getStatusDetails() + "\n";
     }
-
+    /*  concatenate seacrafts statuses */
     for (const auto &craft : seacrafts){
         status += craft->getStatusDetails() + "\n";
     }
@@ -52,6 +58,7 @@ string Model::getStatus() const {
 }
 
 void Model::addCraft(const string &craftName, const string &craftType,Point point, int strength, const string &extraInfo) {
+    /*  create currect seacraft according to seacraft type  */
     switch (getSeacraftType(craftType)) {
         case cruiser:
             if (extraInfo.empty()) {
@@ -154,12 +161,12 @@ void Model::addLoadDestination(const string &seacraftName, const string &portDes
         throw noSuchPortException();
     }
 
+    /*  only Freighter supports loading cargo   */
     if (seacraft.lock()->getClassName() != "Freighter"){
         throw invalidCraftException();
     }
 
-    Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
-    f.setLoadAt(port);
+    dynamic_cast<Freighter*>(&*(seacraft.lock()))->setLoadAt(port);
 }
 
 void Model::addUnloadDestination(string seacraftName, string portDestination, int numOfContainersToUnload) {
@@ -173,13 +180,12 @@ void Model::addUnloadDestination(string seacraftName, string portDestination, in
     if (port.lock() == weak_ptr<Port>().lock()){
         throw noSuchPortException();
     }
-
+    /*  only Freighter supports unloading cargo   */
     if (seacraft.lock()->getClassName() != "Freighter"){
         throw invalidCraftException();
     }
 
-    Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
-    f.setUnloadAt(port, numOfContainersToUnload);
+    dynamic_cast<Freighter*>(&*(seacraft.lock()))->setUnloadAt(port,numOfContainersToUnload);
 }
 
 void Model::setDockingPort(const string &seacraftName, const string &portDestination) {
@@ -194,12 +200,17 @@ void Model::setDockingPort(const string &seacraftName, const string &portDestina
         throw noSuchPortException();
     }
 
-    if (seacraft.lock()->getClassName() != "Freighter"){
+    if (seacraft.lock()->getClassName() == "Cruiser"){
         throw invalidCraftException();
     }
 
-    Freighter &f = *dynamic_cast<Freighter*>(&*(seacraft.lock()));
-    f.setDockingPort(port);
+    if (seacraft.lock()->getName() == "Freighter"){
+        dynamic_cast<Freighter*>(&*(seacraft.lock()))->setDockingPort(port);
+    } else if (seacraft.lock()->getName() == "PatrolBoat"){
+        dynamic_cast<PatrolBoat*>(&*(seacraft.lock()))->setDockingPort(port);
+    } else {
+        throw unexpectedStateException();
+    }
 }
 
 void Model::refuelCraft(const string &seacraftName) {
@@ -212,8 +223,10 @@ void Model::refuelCraft(const string &seacraftName) {
     if (seacraft.lock()->getClassName() == "Cruiser"){
         throw invalidCraftException();
     }
-
-    dynamic_cast<Freighter *>(&*seacraft.lock())->refuel(seacraft);
+    /*  since seacraft is added to the port's refuel queue
+     *  and is saved there by reference, it's original shared_ptr
+     *  is sent to avoid early unexpected destructor execution */
+    seacraft.lock()->refuel(seacraft);
 }
 
 void Model::stopSeacraft(const string &seacraftName) {
@@ -241,6 +254,7 @@ void Model::attackSeacraft(const string &pirateShipName,const string &seacraftNa
         throw noSuchSeacraftException();
     }
 
+    /*  attacker must be pirate ship and attacked seacraft must NOT be a pirate ship    */
     if (pirateCraft.lock()->getClassName() != "Cruiser" || seacraft.lock()->getClassName() == "Cruiser"){
         throw invalidCraftException();
     }
@@ -249,11 +263,14 @@ void Model::attackSeacraft(const string &pirateShipName,const string &seacraftNa
 }
 
 void Model::update() {
+    /*  increment simulation time   */
     time++;
 
+    /*  update ports    */
     for (const auto &port : ports){
         port->update();
     }
+    /*  update seacrafts    */
     for (const auto &seacraft : seacrafts){
         seacraft->update();
     }
@@ -264,7 +281,9 @@ weak_ptr<Port> Model::getClosestPort(const Point &point, set<string> visitedPort
     weak_ptr<Port> closestPort = weak_ptr<Port>();
 
     for (const auto &port : ports){
+        /*  if current port isn't in the visited ports set  */
         if (visitedPorts.find(port->getName()) == visitedPorts.end()){
+            /*  if it is closer than previous ports */
             if (port->getDistance(point) < shortestDistance){
                 shortestDistance = port->getDistance(point);
                 closestPort = port;

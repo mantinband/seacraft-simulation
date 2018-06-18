@@ -39,8 +39,13 @@ void PatrolBoat::update() {
                     setLocation(getDestination().lock()->getLocation());
                     setEndPosition(nullptr);
                     setCourseVector(nullptr);
+
+                    /*  if cycle ended: set status to "stopped". "dockedAt" otherwise   */
                     setStatus(!visitedPorts.empty() && getDestination().lock() == originPort.lock() ? stopped : dockedAt);
+
+                    /*  add current port to visited ports   */
                     visitedPorts.insert(getDestination().lock()->getName());
+
                     currentlyAt = getDestination();
                     setDestinationPort(weak_ptr<Port>());
                     numberOfHoursAtPort=0;
@@ -50,7 +55,11 @@ void PatrolBoat::update() {
                 }
                 break;
             case dockedAt:
-                if (++numberOfHoursAtPort == 3){
+                /*  if current port is the port set as docking port */
+                if (currentlyAt.lock()->getName() == dockAt.lock()->getName()){
+                    setStatus(stopped);
+                    /*  if third hour has been reached, compute next port to visit  */
+                } else if (++numberOfHoursAtPort == 3){
                     Seacraft::setDestination(Model::getInstance().getClosestPort(getLocation(), visitedPorts),getSpeed());
                     if (getDestination().lock() == weak_ptr<Port>().lock()){
                         setDestinationPort(originPort);
@@ -66,6 +75,7 @@ void PatrolBoat::update() {
                 throw unexpectedStateException();
         }
     } catch (notEnoughFuelForUpdateException &e){
+        /*  if fuel is finished */
         cerr << e.what() << endl;
         setStatus(deadInTheWater);
         moveOnCourse(getFuel()/FUEL_CONSUMPTION);   /* continue until out of fuel   */
@@ -93,11 +103,17 @@ double PatrolBoat::getFuelConsumption() const {
 }
 
 void PatrolBoat::refuel(weak_ptr<Seacraft> s) {
+    /*  if ships isn't in its first visit hour  */
     if (numberOfHoursAtPort != 0){
         throw invalidRefuelRequestException();
     }
+    /*  if port's fuel queue is not empty   */
     if (currentlyAt.lock()->getRefuelQueueLength() > 0){
         throw refuelQueueNotEmptyException();
     }
     currentlyAt.lock()->addToRefuelQueue(shared_ptr<Seacraft>(s));
+}
+
+void PatrolBoat::setDockingPort(weak_ptr<Port> dockAt) {
+    dockAt = dockAt;
 }

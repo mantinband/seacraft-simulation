@@ -14,18 +14,16 @@
 using namespace std;
 
 
-
+/*  query options   */
 enum queries {
     defaultMap,
     changeMapSize,
     zoomMap,
     panMap,
     showMap,
-
     showStatus,
     go,
     createSeacraft,
-
     course,
     position,
     destination,
@@ -35,25 +33,29 @@ enum queries {
     attackSeacraft,
     refuelSeacraft,
     stopSeacraft,
-
     quit,
     invalidQuery
 };
 
-
-
+/*****************************************************/
+/*  class interacts with user. receives queries and  */
+/* commutes with the view and model classes          */
+/*****************************************************/
 
 class Controller {
 public:
 
-
     explicit Controller();
 
+    /*  receives and executes queries*/
     void run(ifstream &inputFile);
 
+    /*  returns enum value according to given string token  */
     queries getQuery(string s);
 
+    /*  reads point location from given stream into given point */
     void parseLocation(Point &p, istream &is);
+
 
     struct invalidLocationException : exception {
         const char* what() const throw() override {
@@ -61,18 +63,6 @@ public:
         }
     };
 
-
-    struct invalidScaleException : exception {
-        const char * what() const throw() override {
-            return "ERROR: Invalid Scale. [expected: double]";
-        }
-    };
-
-    struct invalidMapSize : exception{
-        const char * what() const throw() override {
-            return "ERROR: Invalid size. [expected: double]";
-        }
-    };
 
     struct invalidPortFileException : exception {
         const char *what() const throw() override {
@@ -82,55 +72,26 @@ public:
         }
     };
 
-    struct invalidInputException : exception {
-        const char * what() const throw() override{
-            return "ERROR: Invalid input";
-        }
-    };
-
-    struct invalidSeacraftException : exception {
-        const char * what() const throw() override{
-            return "ERROR: Invalid seacraft";
-        }
-    };
-
-    struct invalidDegreeException : exception {
-        const char * what() const throw() override{
-            return "ERROR: Invalid degree";
-        }
-    };
-
-    struct invalidSpeedException : exception {
-        const char * what() const throw() override{
-            return "ERROR: Invalid speed";
-        }
-    };
-    struct invalidPortException : exception {
-        const char * what() const throw() override{
-            return "ERROR: Invalid port";
-        }
-    };
-    struct invalidInitialPortException : exception {
-        string message = "ERROR: Initial port " + INITIAL_PORT + " is invalid";
-        const char * what() const throw() override{
-            return message.c_str();
-        }
-    };
-
     struct invalidCraftNameException : exception {
         const char * what() const throw() override{
             return "ERROR: Invalid craft name";
         }
     };
-private:
-    void addSeacraft();
 
+private:
+    /*  strong pointer to the view  */
     shared_ptr<View> view;
 
-    void createPorts(ifstream &inputFile);
-
+    /*  default port to be created in any event */
     static const string INITIAL_PORT;
 
+    /*  receives craft data from standard input and sends it to the model   */
+    void addSeacraft();
+
+    /*  reads port data from given file and sends it to the model */
+    void createPorts(ifstream &inputFile);
+
+    /*  query options that follow a seacraft name   */
     void seacraftOptions(string seacraftName);
 };
 

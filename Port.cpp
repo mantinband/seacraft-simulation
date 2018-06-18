@@ -34,8 +34,16 @@ void Port::update() {
     setFuel(getFuel()+hourlyFuelProduction);
     /*  check if there is a craft that is waiting to be refueled*/
     if (!refuelQueue.empty()){
-        weak_ptr<Seacraft> toRefuel = refuelQueue.front();
 
+        weak_ptr<Seacraft> toRefuel = refuelQueue.front();
+        /*  if ship has left the port   */
+        while (!toRefuel.lock()->isAt(getLocation())){
+            refuelQueue.pop();
+            if (refuelQueue.empty()){
+                return;
+            }
+            toRefuel = refuelQueue.front();
+        }
         /*  if seacraft needs more fuel than is available   */
         if (Freighter::FUEL_TANK_SIZE - toRefuel.lock()->getFuel() > getFuel()){
             toRefuel.lock()->setFuel(toRefuel.lock()->getFuel()+getFuel());

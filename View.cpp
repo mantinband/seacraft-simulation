@@ -10,6 +10,7 @@ void View::show() const {
     cout << endl;
 
     for (int i=displaySize-1; i>=0; i--){
+        /*  if current line contains number representing scale indicator  */
         if (i%3 == 0){
             cout << setw(5) << fixed << setprecision(floor(origin.y+i*scale) == origin.y+i*scale ? 0 : 1) << origin.y+i*scale << " ";
         } else {
@@ -18,6 +19,7 @@ void View::show() const {
         for (int j=0; j<displaySize; j++){
             Point p(origin.x+scale*j,origin.y+scale*i);
 
+            /*  object initial receives first object found in area if found. empty string otherwise */
             string objectInitial = Model::getInstance().getObjectInitialsAt(p,scale);
 
             if (objectInitial.empty()){
@@ -29,6 +31,7 @@ void View::show() const {
         cout << endl;
     }
 
+    /*  print bottom numbers representing scale */
     for (int i=0; i<ceil(displaySize/3.0); i++){
         if (i == 0){
             cout << setw(7) << fixed << setprecision(floor(origin.y+i*scale) == origin.y+i*scale ? 0 : 1) << origin.x+scale*(i*3);

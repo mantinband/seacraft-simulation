@@ -23,6 +23,7 @@ void Seacraft::setCourse(double degree, double speed) {
     courseDegree = toRegularDegree(degree);
     this->speed = speed;
     courseVector = nullptr;
+
     status = movingOnCourse;
 }
 
@@ -142,5 +143,9 @@ bool Seacraft::enoughFuelForUpdate() {
 
 void Seacraft::setStrength(int strength) {
     Seacraft::strength = strength;
+}
+
+bool Seacraft::isAt(const Point &point) const {
+    return getLocation().x == point.x && getLocation().y == point.y;
 }
 

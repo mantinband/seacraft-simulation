@@ -28,6 +28,7 @@ string Cruiser::getClassName() const {
 }
 
 void Cruiser::attack(weak_ptr<Seacraft> seacraft) {
+    /*  if seacraft is out of reach */
     if (!seacraftIsInAttackRadius(seacraft)){
         throw seacraftNotInAttackRadiusException();
     }
@@ -43,27 +44,39 @@ bool Cruiser::seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft) {
 }
 
 void Cruiser::update() {
+    /*  if there is a pending attack request    */
     if (toAttack.lock() != weak_ptr<Seacraft>().lock()){
+        /*  if the pirate-ship has more strength    */
         if (getStrength() > toAttack.lock()->getStrength()){
+            /*  pirate-ship's strength++*/
             setStrength(getStrength()+1);
+            /*  if attacked ship is freighter, empty it's containers    */
             if (toAttack.lock()->getClassName() == "Freighter"){
                 dynamic_cast<Freighter*>(&*toAttack.lock())->setNumContainers(0);
+                /*  if its a patrol boat, patrol boat's strength--  */
             } else if (toAttack.lock()->getClassName() == "PatrolBoat"){
                 setStrength(getStrength()-1);
             } else {
                 throw unexpectedStateException();
             }
+            /*  stop attacked ship  */
             toAttack.lock()->setDestinationPort(weak_ptr<Port>());
             toAttack.lock()->setSpeed(0);
             toAttack.lock()->setStatus(stopped);
         } else {
+            /*  if attack failed & the attacked ship is a patrol boat,
+             *  patrol boat's strength++ */
             if (toAttack.lock()->getClassName() == "PatrolBoat"){
                 dynamic_cast<PatrolBoat*>(&*toAttack.lock())
                         ->setStrength(dynamic_cast<PatrolBoat*>(&*toAttack.lock())->getStrength()+1);
             }
+            /*  if attack failed, pirate ship's strength--  */
             setStrength(getStrength()-1);
         }
+        /*  dismiss attack request */
+        toAttack = weak_ptr<Seacraft>();
     }
+    /*  continue sailing    */
     moveOnCourse(getSpeed());
 }
 

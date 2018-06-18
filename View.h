@@ -9,6 +9,13 @@
 #include "Geometry.h"
 #include <cmath>
 #include "Model.h"
+
+/************************************************/
+/*  Class prints sea to standard output stream. */
+/*  it is printed as a two dimensional matrix.  */
+/*  it supports actions such as changing scale  */
+/*  origin and size.                            */
+/************************************************/
 class View {
 public:
     static const int MIN_DISPLAY_SIZE = 6;
@@ -22,12 +29,16 @@ public:
 
     void show() const;
 
+    /*  sets the map's size to given value  */
     void setDisplaySize(int displaySize);
 
+    /*  sets the map's scale to given value */
     void setScale(double scale);
 
+    /*  set's map's lower left corner to given point    */
     void setOrigin(const Point &origin);
 
+    /*  restores map's defualt values as defined above  */
     void restoreDefault();
 
     struct invalidMapSize : exception{
@@ -38,6 +49,7 @@ public:
             return s.c_str();
         }
     };
+
 private:
     int displaySize;
     double scale;
