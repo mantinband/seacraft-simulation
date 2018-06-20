@@ -1,1 +1,1 @@
-![uml](https://github.com/amichaiman/seacraft-simulation/blob/master/Class%20Diagram1.png?raw=true)
+![uml](https://github.com/mantinband/seacraft-simulation/blob/master/class-uml.jpg?raw=true)
