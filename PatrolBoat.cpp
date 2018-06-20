@@ -45,7 +45,6 @@ void PatrolBoat::update() {
 
                     /*  add current port to visited ports   */
                     visitedPorts.insert(getDestination().lock()->getName());
-
                     currentlyAt = getDestination();
                     setDestinationPort(weak_ptr<Port>());
                     numberOfHoursAtPort=0;
@@ -55,16 +54,19 @@ void PatrolBoat::update() {
                 }
                 break;
             case dockedAt:
-                /*  if current port is the port set as docking port */
-                if (currentlyAt.lock()->getName() == dockAt.lock()->getName()){
+                /*  if current port is the port that was set as docking port */
+                if (dockAt.lock() != weak_ptr<Port>().lock() && currentlyAt.lock()->getName() == dockAt.lock()->getName()){
                     setStatus(stopped);
                     /*  if third hour has been reached, compute next port to visit  */
                 } else if (++numberOfHoursAtPort == 3){
-                    Seacraft::setDestination(Model::getInstance().getClosestPort(getLocation(), visitedPorts),getSpeed());
-                    if (getDestination().lock() == weak_ptr<Port>().lock()){
-                        setDestinationPort(originPort);
+                    weak_ptr<Port> closestPort = Model::getInstance().getClosestPort(getLocation(),visitedPorts);
+                    if (closestPort.lock() == weak_ptr<Port>().lock()){
+                        Seacraft::setDestination(originPort,getSpeed());
                         currentlyAt = weak_ptr<Port>();
+                    } else {
+                        Seacraft::setDestination(closestPort,getSpeed());
                     }
+
                 }
                 break;
             case stopped:
