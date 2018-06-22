@@ -8,6 +8,7 @@ shared_ptr<Seacraft> SeacraftFactory::create(const string &craftName, const stri
     shared_ptr<Seacraft> newCraft;
     stringstream ss;
 
+    /*  create string holding craft information */
     if (craftName.empty() || strength < 0){
         throw invalidCraftFormat();
     }
@@ -22,7 +23,7 @@ shared_ptr<Seacraft> SeacraftFactory::create(const string &craftName, const stri
     if (registry.find(craftType) == registry.end()){
         throw unknownSeacraftTypeException();
     }
-
+    /*  call "craftType"'s creation function    */
     return registry[craftType](ss.str());
 }
 

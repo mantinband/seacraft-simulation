@@ -25,7 +25,7 @@ using namespace std;
 class Model {
 public:
     Model();
-    /*  returns instance to model   */
+    /*  returns instance of model   */
     static Model & getInstance();
 
     /*  returns current time    */
