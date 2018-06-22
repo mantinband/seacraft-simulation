@@ -6,9 +6,12 @@
 #include "Port.h"
 #include "Model.h"
 
+RegisterSeacraft PatrolBoat::registerSeacraft("Patrol_boat",createPatrolBoat);
+
 PatrolBoat::PatrolBoat(const string &name, Point p, int strength)
         : Seacraft(name, p ,strength),originPort(weak_ptr<Port>()),currentlyAt(weak_ptr<Port>()) {
     setFuel(FUEL_TANK_SIZE);
+
 }
 
 string PatrolBoat::getStatusDetails() const {
@@ -118,4 +121,16 @@ void PatrolBoat::refuel(weak_ptr<Seacraft> s) {
 
 void PatrolBoat::setDockingPort(weak_ptr<Port> dockAt) {
     dockAt = dockAt;
+}
+
+shared_ptr<Seacraft> PatrolBoat::createPatrolBoat(const string &data) {
+    string name;
+    Point p;
+    int strength;
+
+    stringstream ss;
+    ss << data;
+    ss >> name >> p.x >> p.y >> strength;
+
+    return shared_ptr<Seacraft>(new PatrolBoat(name,p,strength));
 }

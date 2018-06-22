@@ -13,12 +13,7 @@
 #include "PatrolBoat.h"
 
 using namespace std;
-enum crafts {
-    cruiser,
-    freighter,
-    patrol_boat,
-    invalidCraft
-};
+
 /********************************************/
 /*  Class is the simulation's database.     */
 /*  it holds all sea objects and supports   */
@@ -35,9 +30,6 @@ public:
 
     /*  returns current time    */
     int getTime() const;
-
-    /*  adds given craft to craft vector */
-    void addCraft(const shared_ptr<Seacraft> &toAdd);
 
     /*  returns initials of object in given area if found. empty string otherwise   */
     string getObjectInitialsAt(const Point &p, double scale) const;
@@ -94,12 +86,6 @@ public:
     };
 
 
-    struct invalidCraftFormat: exception {
-        const char * what() const throw() override {
-            return "ERROR: Invalid seacraft format. [expected: <name> <type> <coordinates> <strength> (optional: number of maxContainers)";
-        }
-    };
-
     struct noSuchSeacraftException : exception {
         const char *what() const throw() override{
             return "ERROR: No such seacraft";
@@ -122,9 +108,6 @@ private:
     int time;
     vector<shared_ptr<Seacraft>> seacrafts;
     vector<shared_ptr<Port>> ports;
-
-    /*  returns enum representing given string token    */
-    crafts getSeacraftType(string s);
 
     /*  returns port by given name  */
     weak_ptr<Port> getPort(const string &portName);

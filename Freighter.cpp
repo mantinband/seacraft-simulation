@@ -5,6 +5,7 @@
 #include <cmath>
 #include "Freighter.h"
 #include "Port.h"
+RegisterSeacraft Freighter::registerSeacraft("Freighter",createFreighter);
 
 Freighter::Freighter(const string &name, Point p, int strength, int containers)
         : Seacraft(name, p, strength) ,maxContainers(containers),numContainers(0){
@@ -186,4 +187,21 @@ double Freighter::getFuelConsumption() const {
 
 void Freighter::setNumContainers(int numContainers) {
     Freighter::numContainers = numContainers;
+}
+
+shared_ptr<Seacraft> Freighter::createFreighter(const string &data) {
+    string name;
+    Point p;
+    int strength;
+    int containers = 0;
+
+    stringstream ss;
+    ss << data;
+    ss >> name >> p.x >> p.y >> strength;
+    if (ss.rdbuf()->in_avail() > 1){
+        ss >> containers;
+        return shared_ptr<Seacraft>(new Freighter(name,p,strength,containers));
+    }
+
+    return shared_ptr<Seacraft>(new Freighter(name,p,strength));
 }

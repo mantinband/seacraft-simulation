@@ -138,6 +138,12 @@
 		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/Seacraft.h">
 			<Option target="seacraft_simulation"/>
 		</Unit>
+		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/SeacraftFactory.cpp">
+			<Option target="seacraft_simulation"/>
+		</Unit>
+		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/SeacraftFactory.h">
+			<Option target="seacraft_simulation"/>
+		</Unit>
 		<Unit filename="/home/amichai/CLionProjects/seacraft-simulation/View.cpp">
 			<Option target="seacraft_simulation"/>
 		</Unit>

@@ -366,6 +366,33 @@ Seacraft.cpp.s:
 	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/Seacraft.cpp.s
 .PHONY : Seacraft.cpp.s
 
+SeacraftFactory.o: SeacraftFactory.cpp.o
+
+.PHONY : SeacraftFactory.o
+
+# target to build an object file
+SeacraftFactory.cpp.o:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/SeacraftFactory.cpp.o
+.PHONY : SeacraftFactory.cpp.o
+
+SeacraftFactory.i: SeacraftFactory.cpp.i
+
+.PHONY : SeacraftFactory.i
+
+# target to preprocess a source file
+SeacraftFactory.cpp.i:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/SeacraftFactory.cpp.i
+.PHONY : SeacraftFactory.cpp.i
+
+SeacraftFactory.s: SeacraftFactory.cpp.s
+
+.PHONY : SeacraftFactory.s
+
+# target to generate assembly for a file
+SeacraftFactory.cpp.s:
+	$(MAKE) -f CMakeFiles/seacraft_simulation.dir/build.make CMakeFiles/seacraft_simulation.dir/SeacraftFactory.cpp.s
+.PHONY : SeacraftFactory.cpp.s
+
 View.o: View.cpp.o
 
 .PHONY : View.o
@@ -456,6 +483,9 @@ help:
 	@echo "... Seacraft.o"
 	@echo "... Seacraft.i"
 	@echo "... Seacraft.s"
+	@echo "... SeacraftFactory.o"
+	@echo "... SeacraftFactory.i"
+	@echo "... SeacraftFactory.s"
 	@echo "... View.o"
 	@echo "... View.i"
 	@echo "... View.s"

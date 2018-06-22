@@ -4,6 +4,7 @@
 
 #include <limits>
 #include "Model.h"
+#include "SeacraftFactory.h"
 
 Model::Model() :time(0){
 }
@@ -18,10 +19,6 @@ Model& Model::getInstance() {
 
 int Model::getTime() const {
     return time;
-}
-
-void Model::addCraft(const shared_ptr<Seacraft> &toAdd) {
-    seacrafts.push_back(toAdd);
 }
 
 string Model::getObjectInitialsAt(const Point &p, double scale) const {
@@ -58,34 +55,8 @@ string Model::getStatus() const {
 }
 
 void Model::addCraft(const string &craftName, const string &craftType,Point point, int strength, const string &extraInfo) {
-    /*  create currect seacraft according to seacraft type  */
-    switch (getSeacraftType(craftType)) {
-        case cruiser:
-            if (extraInfo.empty()) {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength)));
-            } else {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Cruiser(craftName, point, strength, stof(extraInfo))));
-            }
-                break;
-        case freighter:
-            if (extraInfo.empty()) {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength)));
-            } else {
-                Model::getInstance().addCraft(shared_ptr<Seacraft>(new Freighter(craftName, point, strength, stoi(extraInfo)))); break;
-            }
-            break;
-        case patrol_boat:
-            Model::getInstance().addCraft(shared_ptr<Seacraft>(new PatrolBoat(craftName, point, strength)));
-            break;
-        default:
-            throw invalidCraftFormat();
-    }
-}
-crafts Model::getSeacraftType(string s) {
-    if (s == "Cruiser") return cruiser;
-    if (s == "Freighter") return freighter;
-    if (s == "Patrol_boat") return patrol_boat;
-    return invalidCraft;
+    /*  create correct seacraft according to seacraft type  */
+    seacrafts.push_back(SeacraftFactory::getInstance().create(craftName, craftType, point, strength, extraInfo));
 }
 
 void Model::addPort(string portName, Point portLocation, double initialFuel, double hourlyFuelProduction) {

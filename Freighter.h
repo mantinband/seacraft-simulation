@@ -7,6 +7,7 @@
 
 
 #include "Seacraft.h"
+#include "SeacraftFactory.h"
 
 /****************************************************/
 /*  Class represents a cargo ship.                  */
@@ -128,6 +129,9 @@ private:
     weak_ptr<Port> currentlyAt;
 
     int numContainersToUnload;
+
+    static shared_ptr<Seacraft> createFreighter(const string &data);
+    static RegisterSeacraft registerSeacraft;
 };
 
 

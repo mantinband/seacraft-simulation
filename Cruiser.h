@@ -7,6 +7,7 @@
 
 
 #include "Seacraft.h"
+#include "SeacraftFactory.h"
 /*****************************************************/
 /*  Class represents a pirate-ship.                  */
 /*  pirate ship can attack a Freighter and take its  */
@@ -63,6 +64,8 @@ private:
 
     /*  returns true if seacraft is in ships attack radius. false otherwise */
     bool seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft);
+    static RegisterSeacraft registerSeacraft;
+    static shared_ptr<Seacraft> createCruiser(const string &data);
 };
 
 

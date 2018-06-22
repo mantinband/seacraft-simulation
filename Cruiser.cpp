@@ -6,6 +6,7 @@
 #include "Freighter.h"
 #include "PatrolBoat.h"
 
+RegisterSeacraft Cruiser::registerSeacraft("Cruiser",createCruiser);
 
 string Cruiser::getStatusDetails() const {
     stringstream ss;
@@ -96,3 +97,19 @@ void Cruiser::refuel(weak_ptr<Seacraft> ptr) {
     throw fuelNotSupportedException();
 }
 
+shared_ptr<Seacraft> Cruiser::createCruiser(const string &data) {
+    string name;
+    Point p;
+    int strength;
+    int attackRadius = 0;
+
+    stringstream ss;
+    ss << data;
+    ss >> name >> p.x >> p.y >> strength;
+    if (ss.rdbuf()->in_avail() > 1){
+        ss >> attackRadius;
+        return shared_ptr<Seacraft>(new Cruiser(name,p,strength,attackRadius));
+    }
+
+    return shared_ptr<Seacraft>(new Cruiser(name,p,strength));
+}

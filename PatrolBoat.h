@@ -8,6 +8,8 @@
 
 #include <set>
 #include "Seacraft.h"
+#include "SeacraftFactory.h"
+
 
 /************************************************/
 /*  Class represents a patrol boat.             */
@@ -104,13 +106,15 @@ private:
     /*  set containing ports that have been visited
      *  in current cycle    */
     set<string> visitedPorts;
-
     /*  origin port of current cycle    */
     weak_ptr<Port> originPort;
+
     weak_ptr<Port> currentlyAt;
     weak_ptr<Port> dockAt;
     /*  visit time at port. (number between 0 to 3) */
     int numberOfHoursAtPort;
+    static RegisterSeacraft registerSeacraft;
+    static shared_ptr<Seacraft> createPatrolBoat(const string& data);
 };
 
 
