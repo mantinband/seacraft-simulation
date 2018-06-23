@@ -37,7 +37,7 @@ it prepares for it's next sail.
 A Patrol boat's destination can be set to an angle, a point, or a port.  
 
 ## Time pulses
-On each time the "world" is updated as following:  
+With each time pulse the "world" is updated as following:  
 #### Port
 updates ports fuel amount and refuels a ship if needed
 #### Cruiser
