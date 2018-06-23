@@ -34,6 +34,11 @@ public:
     static const int MAX_SPEED = 15;
 
     PatrolBoat(const string &name, Point p, int strength);
+    PatrolBoat(const PatrolBoat& rhs);
+    PatrolBoat& operator=(const PatrolBoat& rhs);
+    PatrolBoat(PatrolBoat&& rhs) noexcept;
+    PatrolBoat& operator=(PatrolBoat&& rhs) noexcept;
+    virtual ~PatrolBoat() = default;
 
     /*  sets ship's destination port to given port at given speed   */
     void setDestination(weak_ptr<Port> destination, double speed) override;
@@ -88,7 +93,23 @@ public:
     /*  sets ship's docking port to given port  */
     void setDockingPort(weak_ptr<Port> dockAt);
 
+    const weak_ptr<Port> &getCurrentlyAt() const;
 
+    const weak_ptr<Port> &getDockAt() const;
+
+    int getNumberOfHoursAtPort() const;
+
+    const weak_ptr<Port> &getOriginPort() const;
+
+    void setVisitedPorts(const set<string> &visitedPorts);
+
+    void setOriginPort(const weak_ptr<Port> &originPort);
+
+    void setCurrentlyAt(const weak_ptr<Port> &currentlyAt);
+
+    void setNumberOfHoursAtPort(int numberOfHoursAtPort);
+
+    const set<string> &getVisitedPorts() const;
     struct invalidRefuelRequestException : exception{
         const char * what() const throw() override{
             return "ERROR: Invalid refuel request. (refuel request should be"
@@ -113,7 +134,11 @@ private:
     weak_ptr<Port> dockAt;
     /*  visit time at port. (number between 0 to 3) */
     int numberOfHoursAtPort;
+    /*  RegisterSeacraft object. used to register the seacraft to
+     *  the seacraft factory    */
     static RegisterSeacraft registerSeacraft;
+    /*  receives string containing name point strength
+     *  and returns a new PatrolBoat object. used by the factory    */
     static shared_ptr<Seacraft> createPatrolBoat(const string& data);
 };
 

@@ -21,6 +21,13 @@ public:
     const static int DEFAULT_ATTACK_RADIUS = 5;
 
     Cruiser(const string &craftName, Point point, int strength, float attackRadius=DEFAULT_ATTACK_RADIUS);
+    Cruiser(const Cruiser& rhs);
+    Cruiser& operator=(const Cruiser& rhs);
+    Cruiser(Cruiser&& rhs) noexcept;
+    Cruiser& operator=(Cruiser&& rhs) noexcept;
+
+    virtual ~Cruiser()= default;
+
 
     /*  attack given seacraft on next update    */
     void attack(weak_ptr<Seacraft> seacraft);
@@ -47,6 +54,14 @@ public:
     /*  updates ships location and attacks ship if an attack request was set    */
     void update() override;
 
+    float getAttackRadius() const;
+
+    const weak_ptr<Seacraft> &getToAttack() const;
+
+    void setAttackRadius(float attackRadius);
+
+    void setToAttack(const weak_ptr<Seacraft> &toAttack);
+
     struct seacraftNotInAttackRadiusException : exception {
         const char * what() const throw() override{
             return "ERROR: Seacraft not in attack radius";
@@ -64,7 +79,13 @@ private:
 
     /*  returns true if seacraft is in ships attack radius. false otherwise */
     bool seacraftIsInAttackRadius(weak_ptr<Seacraft> seacraft);
+
+    /*  RegisterSeacraft object. used to register the seacraft to
+     *  the seacraft factory    */
     static RegisterSeacraft registerSeacraft;
+
+    /*  receives string containing name point strength and attack
+     *  radius and returns a new cruiser object. used by the factory    */
     static shared_ptr<Seacraft> createCruiser(const string &data);
 };
 

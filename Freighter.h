@@ -26,6 +26,12 @@ public:
     static const int MAX_SPEED = 40;
 
     Freighter(const string &name, Point p, int strength, int containers=0);
+    Freighter(const Freighter& rhs);
+    Freighter& operator=(const Freighter& rhs);
+    Freighter(Freighter&& rhs) noexcept;
+    Freighter& operator=(Freighter&& rhs) noexcept;
+    virtual ~Freighter()= default;
+
 
     /*  returns string with details regarding
      *  ship's status. location, resistance etc'    */
@@ -95,6 +101,24 @@ public:
     /*  sets ship's number of containers to given number    */
     void setNumContainers(int numContainers);
 
+    int getMaxContainers() const;
+
+    int getNumContainers() const;
+
+    const weak_ptr<Port> &getLoadAt() const;
+
+    const weak_ptr<Port> &getDockAt() const;
+
+    const weak_ptr<Port> &getUnloadAt() const;
+
+    const weak_ptr<Port> &getCurrentlyAt() const;
+
+    int getNumContainersToUnload() const;
+
+    void setCurrentlyAt(const weak_ptr<Port> &currentlyAt);
+
+    void setMaxContainers(int maxContainers);
+
     struct invalidLoadingPortException : exception {
         const char * what() const throw() override {
             return "ERROR: Invalid loading port";
@@ -130,9 +154,17 @@ private:
 
     int numContainersToUnload;
 
-    static shared_ptr<Seacraft> createFreighter(const string &data);
+    /*  RegisterSeacraft object. used to register the seacraft to
+     *  the seacraft factory    */
     static RegisterSeacraft registerSeacraft;
+
+    /*  receives string containing name point strength and number
+     *  of containers and returns a new cruiser object.
+     *  used by the factory    */
+    static shared_ptr<Seacraft> createFreighter(const string &data);
 };
+
+
 
 
 #endif //SEACRAFT_SIMULATION_FREIGHTER_H

@@ -149,3 +149,75 @@ bool Seacraft::isAt(const Point &point) const {
     return getLocation().x == point.x && getLocation().y == point.y;
 }
 
+Seacraft::Seacraft(const Seacraft &rhs): SeaObject(rhs){
+    strength = rhs.getStrength();
+    speed = rhs.getSpeed();
+    courseDegree = rhs.getCourseDegree();
+    status = rhs.getStatus();
+    endPosition = make_shared<Point>(rhs.getEndPosition().x,rhs.getEndPosition().y);
+    destinationPort = getDestination();
+    courseVector = getCourseVector();
+}
+
+const shared_ptr<Cartesian_vector> &Seacraft::getCourseVector() const {
+    return courseVector;
+}
+
+Seacraft::Seacraft(Seacraft &&rhs) noexcept: SeaObject(move(rhs)){
+    strength = rhs.getStrength();
+    speed = rhs.getSpeed();
+    courseDegree = rhs.getCourseDegree();
+    status = rhs.getStatus();
+    endPosition = make_shared<Point>(rhs.getEndPosition().x,rhs.getEndPosition().y);
+    destinationPort = getDestination();
+    courseVector = getCourseVector();
+
+    rhs.setStrength(0);
+    rhs.setSpeed(0);
+    rhs.setCourseDegree(0);
+    rhs.setStatus(stopped);
+    rhs.setEndPosition(shared_ptr<Point>());
+    rhs.setDestinationPort(weak_ptr<Port>());
+    setCourseVector(shared_ptr<Cartesian_vector>());
+}
+
+void Seacraft::setCourseDegree(double courseDegree) {
+    Seacraft::courseDegree = courseDegree;
+}
+
+Seacraft &Seacraft::operator=(const Seacraft &rhs){
+    SeaObject::operator=(rhs);
+
+    strength = rhs.getStrength();
+    speed = rhs.getSpeed();
+    courseDegree = rhs.getCourseDegree();
+    status = rhs.getStatus();
+    endPosition = make_shared<Point>(rhs.getEndPosition().x,rhs.getEndPosition().y);
+    destinationPort = getDestination();
+    courseVector = getCourseVector();
+    return *this;
+}
+
+Seacraft &Seacraft::operator=(Seacraft &&rhs) noexcept{
+    strength = rhs.getStrength();
+    speed = rhs.getSpeed();
+    courseDegree = rhs.getCourseDegree();
+    status = rhs.getStatus();
+    endPosition = make_shared<Point>(rhs.getEndPosition().x,rhs.getEndPosition().y);
+    destinationPort = getDestination();
+    courseVector = getCourseVector();
+
+    rhs.setStrength(0);
+    rhs.setSpeed(0);
+    rhs.setCourseDegree(0);
+    rhs.setStatus(stopped);
+    rhs.setEndPosition(shared_ptr<Point>());
+    rhs.setDestinationPort(weak_ptr<Port>());
+    setCourseVector(shared_ptr<Cartesian_vector>());
+
+    SeaObject::operator=(move(rhs));
+
+    return *this;
+}
+
+

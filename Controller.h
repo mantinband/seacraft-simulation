@@ -46,6 +46,10 @@ class Controller {
 public:
 
     explicit Controller();
+    virtual ~Controller()= default;
+    Controller& operator=(const Controller& rhs);
+    Controller(Controller &&rhs) noexcept;
+    Controller& operator=(Controller&& rhs) noexcept ;
 
     /*  receives and executes queries*/
     void run(ifstream &inputFile);
@@ -56,6 +60,9 @@ public:
     /*  reads point location from given stream into given point */
     void parseLocation(Point &p, istream &is);
 
+    void setView(const shared_ptr<View> &view);
+
+    const shared_ptr<View> &getView() const;
 
     struct invalidLocationException : exception {
         const char* what() const throw() override {
@@ -72,6 +79,7 @@ public:
         }
     };
 
+
     struct invalidCraftNameException : exception {
         const char * what() const throw() override{
             return "ERROR: Invalid craft name";
@@ -79,9 +87,9 @@ public:
     };
 
 private:
+
     /*  strong pointer to the view  */
     shared_ptr<View> view;
-
     /*  default port to be created in any event */
     static const string INITIAL_PORT;
 
@@ -94,6 +102,7 @@ private:
     /*  query options that follow a seacraft name   */
     void seacraftOptions(string seacraftName);
 };
+
 
 
 #endif //SEACRAFT_SIMULATION_CONTROLLER_H

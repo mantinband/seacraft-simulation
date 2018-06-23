@@ -151,7 +151,7 @@ void Controller::addSeacraft() {
 
     getline(cin,extraInfo);
 
-    /*  send data to the model's factory    */
+    /*  send data to the model    */
     Model::getInstance().addCraft(craftName,craftType,point,strength,extraInfo);
 }
 
@@ -260,5 +260,29 @@ void Controller::seacraftOptions(string seacraftName) {
             break;
 
     }
+}
+
+Controller &Controller::operator=(const Controller &rhs) {
+    view = rhs.getView();
+    return *this;
+}
+
+const shared_ptr<View> &Controller::getView() const {
+    return view;
+}
+
+Controller::Controller(Controller &&rhs) noexcept {
+    view = rhs.getView();
+    rhs.setView(shared_ptr<View>());
+}
+
+void Controller::setView(const shared_ptr<View> &view) {
+    Controller::view = view;
+}
+
+Controller& Controller::operator=(Controller &&rhs) noexcept {
+    view = rhs.getView();
+    rhs.setView(shared_ptr<View>());
+    return *this;
 }
 

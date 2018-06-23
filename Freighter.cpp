@@ -205,3 +205,102 @@ shared_ptr<Seacraft> Freighter::createFreighter(const string &data) {
 
     return shared_ptr<Seacraft>(new Freighter(name,p,strength));
 }
+
+Freighter::Freighter(const Freighter &rhs) : Seacraft(rhs) {
+    maxContainers = rhs.getMaxContainers();
+    numContainers = rhs.getNumContainers();
+    loadAt = rhs.getLoadAt();
+    dockAt = rhs.getDockAt();
+    unloadAt = rhs.getUnloadAt();
+    currentlyAt = rhs.getCurrentlyAt();
+    numContainersToUnload = rhs.getNumContainersToUnload();
+}
+
+int Freighter::getMaxContainers() const {
+    return maxContainers;
+}
+
+int Freighter::getNumContainers() const {
+    return numContainers;
+}
+
+const weak_ptr<Port> &Freighter::getLoadAt() const {
+    return loadAt;
+}
+
+const weak_ptr<Port> &Freighter::getDockAt() const {
+    return dockAt;
+}
+
+const weak_ptr<Port> &Freighter::getUnloadAt() const {
+    return unloadAt;
+}
+
+const weak_ptr<Port> &Freighter::getCurrentlyAt() const {
+    return currentlyAt;
+}
+
+int Freighter::getNumContainersToUnload() const {
+    return numContainersToUnload;
+}
+
+Freighter &Freighter::operator=(const Freighter &rhs) {
+    Seacraft::operator=(rhs);
+
+    maxContainers = rhs.getMaxContainers();
+    numContainers = rhs.getNumContainers();
+    loadAt = rhs.getLoadAt();
+    dockAt = rhs.getDockAt();
+    unloadAt = rhs.getUnloadAt();
+    currentlyAt = rhs.getCurrentlyAt();
+    numContainersToUnload = rhs.getNumContainersToUnload();
+
+    return *this;
+}
+
+Freighter::Freighter(Freighter &&rhs) noexcept : Seacraft(move(rhs)){
+    maxContainers = rhs.getMaxContainers();
+    numContainers = rhs.getNumContainers();
+    loadAt = rhs.getLoadAt();
+    dockAt = rhs.getDockAt();
+    unloadAt = rhs.getUnloadAt();
+    currentlyAt = rhs.getCurrentlyAt();
+    numContainersToUnload = rhs.getNumContainersToUnload();
+
+    rhs.setMaxContainers(0);
+    rhs.setNumContainers(0);
+    rhs.setLoadAt(weak_ptr<Port>());
+    rhs.setDockingPort(weak_ptr<Port>());
+    rhs.setUnloadAt(weak_ptr<Port>(),0);
+    rhs.setCurrentlyAt(weak_ptr<Port>());
+}
+
+void Freighter::setMaxContainers(int maxContainers) {
+    Freighter::maxContainers = maxContainers;
+}
+
+void Freighter::setCurrentlyAt(const weak_ptr<Port> &currentlyAt) {
+    Freighter::currentlyAt = currentlyAt;
+}
+
+Freighter &Freighter::operator=(Freighter &&rhs) noexcept {
+    maxContainers = rhs.getMaxContainers();
+    numContainers = rhs.getNumContainers();
+    loadAt = rhs.getLoadAt();
+    dockAt = rhs.getDockAt();
+    unloadAt = rhs.getUnloadAt();
+    currentlyAt = rhs.getCurrentlyAt();
+    numContainersToUnload = rhs.getNumContainersToUnload();
+
+    rhs.setMaxContainers(0);
+    rhs.setNumContainers(0);
+    rhs.setLoadAt(weak_ptr<Port>());
+    rhs.setDockingPort(weak_ptr<Port>());
+    rhs.setUnloadAt(weak_ptr<Port>(),0);
+    rhs.setCurrentlyAt(weak_ptr<Port>());
+
+    Seacraft::operator=(move(rhs));
+    return *this;
+}
+
+

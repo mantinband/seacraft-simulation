@@ -26,6 +26,11 @@ public:
     static const int DEFAULT_ORIGIN_Y = -10;
 
     View();
+    View(const View& rhs);
+    View& operator=(const View& rhs);
+    View(View&& rhs) noexcept;
+    View& operator=(View&& rhs) noexcept;
+    virtual ~View() = default;
 
     void show() const;
 
@@ -40,6 +45,13 @@ public:
 
     /*  restores map's defualt values as defined above  */
     void restoreDefault();
+
+
+    int getDisplaySize() const;
+
+    double getScale() const;
+
+    const Point &getOrigin() const;
 
     struct invalidMapSize : exception{
         string s = "ERROR: Invalid size. [expected: integer between "

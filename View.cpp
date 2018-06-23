@@ -12,6 +12,8 @@ void View::show() const {
     for (int i=displaySize-1; i>=0; i--){
         /*  if current line contains number representing scale indicator  */
         if (i%3 == 0){
+            /*  when setting precision it is checked whether the number
+             * representing scale is a natural or real number    */
             cout << setw(5) << fixed << setprecision(floor(origin.y+i*scale) == origin.y+i*scale ? 0 : 1) << origin.y+i*scale << " ";
         } else {
             cout << setw(6) << "";
@@ -64,4 +66,45 @@ void View::restoreDefault() {
     displaySize = DEFAULT_DISPLAY_SIZE;
     scale = DEFAULT_SCALE;
     origin = Point(DEFAULT_ORIGIN_X,DEFAULT_ORIGIN_Y);
+}
+
+View::View(const View &rhs) {
+    displaySize = rhs.getDisplaySize();
+    scale = rhs.getScale();
+    origin = rhs.getOrigin();
+}
+
+int View::getDisplaySize() const {
+    return displaySize;
+}
+
+double View::getScale() const {
+    return scale;
+}
+
+const Point &View::getOrigin() const {
+    return origin;
+}
+
+View &View::operator=(const View& rhs) {
+    displaySize = rhs.getDisplaySize();
+    scale = rhs.getScale();
+    origin = rhs.getOrigin();
+
+    return *this;
+}
+
+View::View(View &&rhs) noexcept {
+    displaySize = rhs.getDisplaySize();
+    scale = rhs.getScale();
+    origin = rhs.getOrigin();
+    rhs.restoreDefault();
+}
+
+View &View::operator=(View &&rhs) noexcept {
+    displaySize = rhs.getDisplaySize();
+    scale = rhs.getScale();
+    origin = rhs.getOrigin();
+    rhs.restoreDefault();
+    return *this;
 }

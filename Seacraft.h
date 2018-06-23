@@ -28,7 +28,14 @@ enum Status{
 class Seacraft : public SeaObject {
 public:
     Seacraft(string name, Point p, int strength);
+    Seacraft(const Seacraft& rhs);
+    Seacraft& operator=(const Seacraft& rhs);
+    Seacraft(Seacraft&& rhs) noexcept ;
+    Seacraft& operator=(Seacraft&& rhs) noexcept ;
+    void setCourseDegree(double courseDegree);
 
+
+    virtual ~Seacraft() = default;
 
     /*  sets ships location to given distance from current spot.
      *  new location is based on ships sailing angle    */
@@ -96,6 +103,7 @@ public:
     /*  returns true if ship has enough fuel to finish next update. false otherwise */
     bool enoughFuelForUpdate();
 
+    const shared_ptr<Cartesian_vector> &getCourseVector() const;
 
     /****************************************************************/
     /*  pure virtual functions to be implemented by derived classes */

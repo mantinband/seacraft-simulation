@@ -20,6 +20,13 @@ class SeaObject {
 public:
 
     SeaObject(string name, const Point &point);
+    SeaObject(const SeaObject& rhs);
+    SeaObject& operator=(const SeaObject& rhs);
+    SeaObject(SeaObject&& rhs) noexcept;
+    SeaObject& operator=(SeaObject&& rhs);
+    void setName(const string &name);
+
+    virtual ~SeaObject() = default;
 
     /*  returns objects name    */
     string getName() const;

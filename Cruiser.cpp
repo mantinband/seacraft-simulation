@@ -113,3 +113,49 @@ shared_ptr<Seacraft> Cruiser::createCruiser(const string &data) {
 
     return shared_ptr<Seacraft>(new Cruiser(name,p,strength));
 }
+
+Cruiser::Cruiser(const Cruiser &rhs) : Seacraft(rhs){
+    attackRadius = rhs.getAttackRadius();
+    toAttack = rhs.getToAttack();
+}
+
+float Cruiser::getAttackRadius() const {
+    return attackRadius;
+}
+
+const weak_ptr<Seacraft> &Cruiser::getToAttack() const {
+    return toAttack;
+}
+
+Cruiser::Cruiser(Cruiser &&rhs) noexcept : Seacraft(move(rhs)){
+    attackRadius = rhs.getAttackRadius();
+    toAttack = rhs.getToAttack();
+    rhs.setToAttack(weak_ptr<Seacraft>());
+    rhs.setAttackRadius(0);
+}
+
+void Cruiser::setAttackRadius(float attackRadius) {
+    Cruiser::attackRadius = attackRadius;
+}
+
+void Cruiser::setToAttack(const weak_ptr<Seacraft> &toAttack) {
+    Cruiser::toAttack = toAttack;
+}
+
+Cruiser &Cruiser::operator=(const Cruiser& rhs) {
+    Seacraft::operator=(rhs);
+    attackRadius = rhs.getAttackRadius();
+    toAttack = rhs.getToAttack();
+
+    return *this;
+}
+
+Cruiser &Cruiser::operator=(Cruiser &&rhs) noexcept {
+    attackRadius = rhs.getAttackRadius();
+    toAttack = rhs.getToAttack();
+    rhs.setToAttack(weak_ptr<Seacraft>());
+    rhs.setAttackRadius(0);
+
+    Seacraft::operator=(move(rhs));
+    return *this;
+}

@@ -134,3 +134,91 @@ shared_ptr<Seacraft> PatrolBoat::createPatrolBoat(const string &data) {
 
     return shared_ptr<Seacraft>(new PatrolBoat(name,p,strength));
 }
+
+PatrolBoat::PatrolBoat(const PatrolBoat &rhs) : Seacraft(rhs){
+    visitedPorts = getVisitedPorts();
+    originPort = rhs.getOriginPort();
+    currentlyAt = rhs.getCurrentlyAt();
+    dockAt = rhs.getDockAt();
+    numberOfHoursAtPort = rhs.getNumberOfHoursAtPort();
+}
+
+const set<string> &PatrolBoat::getVisitedPorts() const {
+    return visitedPorts;
+}
+
+const weak_ptr<Port> &PatrolBoat::getOriginPort() const {
+    return originPort;
+}
+
+const weak_ptr<Port> &PatrolBoat::getCurrentlyAt() const {
+    return currentlyAt;
+}
+
+const weak_ptr<Port> &PatrolBoat::getDockAt() const {
+    return dockAt;
+}
+
+int PatrolBoat::getNumberOfHoursAtPort() const {
+    return numberOfHoursAtPort;
+}
+
+PatrolBoat &PatrolBoat::operator=(const PatrolBoat &rhs) {
+    Seacraft::operator=(rhs);
+
+    visitedPorts = getVisitedPorts();
+    originPort = rhs.getOriginPort();
+    currentlyAt = rhs.getCurrentlyAt();
+    dockAt = rhs.getDockAt();
+    numberOfHoursAtPort = rhs.getNumberOfHoursAtPort();
+
+    return *this;
+}
+
+PatrolBoat::PatrolBoat(PatrolBoat &&rhs) noexcept : Seacraft(move(rhs)){
+    visitedPorts = getVisitedPorts();
+    originPort = rhs.getOriginPort();
+    currentlyAt = rhs.getCurrentlyAt();
+    dockAt = rhs.getDockAt();
+    numberOfHoursAtPort = rhs.getNumberOfHoursAtPort();
+
+    rhs.setVisitedPorts(set<string>());
+    rhs.setOriginPort(weak_ptr<Port>());
+    rhs.setCurrentlyAt(weak_ptr<Port>());
+    rhs.setDockingPort(weak_ptr<Port>());
+    rhs.setNumberOfHoursAtPort(0);
+}
+
+void PatrolBoat::setVisitedPorts(const set<string> &visitedPorts) {
+    PatrolBoat::visitedPorts = visitedPorts;
+}
+
+void PatrolBoat::setOriginPort(const weak_ptr<Port> &originPort) {
+    PatrolBoat::originPort = originPort;
+}
+
+void PatrolBoat::setCurrentlyAt(const weak_ptr<Port> &currentlyAt) {
+    PatrolBoat::currentlyAt = currentlyAt;
+}
+
+void PatrolBoat::setNumberOfHoursAtPort(int numberOfHoursAtPort) {
+    PatrolBoat::numberOfHoursAtPort = numberOfHoursAtPort;
+}
+
+PatrolBoat &PatrolBoat::operator=(PatrolBoat &&rhs) noexcept {
+    visitedPorts = getVisitedPorts();
+    originPort = rhs.getOriginPort();
+    currentlyAt = rhs.getCurrentlyAt();
+    dockAt = rhs.getDockAt();
+    numberOfHoursAtPort = rhs.getNumberOfHoursAtPort();
+
+    rhs.setVisitedPorts(set<string>());
+    rhs.setOriginPort(weak_ptr<Port>());
+    rhs.setCurrentlyAt(weak_ptr<Port>());
+    rhs.setDockingPort(weak_ptr<Port>());
+    rhs.setNumberOfHoursAtPort(0);
+
+    Seacraft::operator=(move(rhs));
+
+    return *this;
+}

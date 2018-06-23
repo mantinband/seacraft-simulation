@@ -55,3 +55,41 @@ double SeaObject::getDistance(const Point &point) {
     distance = sqrt(distance);
     return distance;
 }
+
+SeaObject::SeaObject(const SeaObject &rhs) {
+    name = rhs.getName();
+    location = rhs.getLocation();
+    fuel = rhs.getFuel();
+}
+
+SeaObject &SeaObject::operator=(const SeaObject &rhs) {
+    name = rhs.getName();
+    location = rhs.getLocation();
+    fuel = rhs.getFuel();
+    return *this;
+}
+
+SeaObject::SeaObject(SeaObject &&rhs) noexcept{
+    name = rhs.getName();
+    location = rhs.getLocation();
+    fuel = rhs.getFuel();
+    rhs.setName("");
+    rhs.setLocation(Point());
+    rhs.setFuel(0);
+}
+
+void SeaObject::setName(const string &name) {
+    SeaObject::name = name;
+}
+
+SeaObject &SeaObject::operator=(SeaObject &&rhs) noexcept {
+    name = rhs.getName();
+    location = rhs.getLocation();
+    fuel = rhs.getFuel();
+    rhs.setName("");
+    rhs.setLocation(Point());
+    rhs.setFuel(0);
+
+    return *this;
+}
+

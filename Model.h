@@ -24,7 +24,6 @@ using namespace std;
 
 class Model {
 public:
-    Model();
     /*  returns instance of model   */
     static Model & getInstance();
 
@@ -40,7 +39,8 @@ public:
     /*  adds port to ports vector*/
     void addPort(string portName, Point portLocation, double initialFuel, double hourlyFuelProduction);
 
-    /*  FACTORY: receives as arguments ship information. and creates currect ship accordingly   */
+    /*  receives as arguments ship information. and uses seacraft
+     *  factory to generate the correct seacraft    */
     void addCraft(const string &craftName, const string &crafType, Point point, int strength, const string &extraInfo);
 
     /*  sets given seacraft's destination to given angle at given speed    */
@@ -104,6 +104,7 @@ public:
         }
     };
 private:
+    Model();
     /*  current simulation time */
     int time;
     vector<shared_ptr<Seacraft>> seacrafts;
