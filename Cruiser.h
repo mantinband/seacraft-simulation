@@ -53,7 +53,7 @@ public:
 
     /*  updates ships location and attacks ship if an attack request was set    */
     void update() override;
-
+    
     float getAttackRadius() const;
 
     const weak_ptr<Seacraft> &getToAttack() const;

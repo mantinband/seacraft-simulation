@@ -38,8 +38,10 @@ public:
     PatrolBoat& operator=(const PatrolBoat& rhs);
     PatrolBoat(PatrolBoat&& rhs) noexcept;
     PatrolBoat& operator=(PatrolBoat&& rhs) noexcept;
-    virtual ~PatrolBoat() = default;
 
+
+
+    virtual ~PatrolBoat() = default;
     /*  sets ship's destination port to given port at given speed   */
     void setDestination(weak_ptr<Port> destination, double speed) override;
 
@@ -100,14 +102,6 @@ public:
     int getNumberOfHoursAtPort() const;
 
     const weak_ptr<Port> &getOriginPort() const;
-
-    void setVisitedPorts(const set<string> &visitedPorts);
-
-    void setOriginPort(const weak_ptr<Port> &originPort);
-
-    void setCurrentlyAt(const weak_ptr<Port> &currentlyAt);
-
-    void setNumberOfHoursAtPort(int numberOfHoursAtPort);
 
     const set<string> &getVisitedPorts() const;
     struct invalidRefuelRequestException : exception{
